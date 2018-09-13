@@ -1,2 +1,2 @@
 # blog
-Private blog project
+A private blog project using SpringMVC
