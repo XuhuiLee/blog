@@ -1,0 +1,11 @@
+##<head>
+##    <title>$!{article.title}</title>
+##</head>
+##<body>
+    #define($content)
+        #if($!{article})
+        <h1>$!{article.title}</h1>
+        <div>$!{article.richContent}</div>
+        #end
+    #end
+##</body>

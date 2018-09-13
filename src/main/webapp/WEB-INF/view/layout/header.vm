@@ -1,0 +1,30 @@
+<link href="/static/css/header.css" rel="stylesheet"/>
+<script src="/static/js/header.js"></script>
+#set($user = ${page.loginUser})
+<header class="am-topbar am-topbar-fixed-top">
+    <div class="am-container">
+        <h1 class="am-topbar-brand am-topbar-brand-secondary">
+            <a href="/" class="font-white">CreateArtTechnology</a>
+        </h1>
+        <div class="am-collapse am-topbar-collapse" id="collapse-head">
+            #if(${page.login})
+                <div class="am-topbar-right am-btn-group">
+                    <li class="am-dropdown" data-am-dropdown>
+                        <a class="am-btn am-btn-xl am-dropdown-toggle font-white" data-am-dropdown-toggle href="javascript:;">
+                            $!{user.nickname} <span class="am-icon-caret-down"></span>
+                        </a>
+                        <ul class="am-topbar-right am-dropdown-content">
+                            <li><a class="am-btn am-btn-xl am-radius font-white" href="/account">个人中心</a></li>
+                            <li><a class="am-btn am-btn-xl am-radius font-white" onclick="logout()">登出账号</a></li>
+                        </ul>
+                    </li>
+                </div>
+            #else
+                <div class="am-topbar-right am-btn-group">
+                    <a class="am-btn am-btn-xl am-radius font-white" href="/login">登录</a>
+                    <a class="am-btn am-btn-xl am-radius font-white" href="/register">注册</a>
+                </div>
+            #end
+        </div>
+    </div>
+</header>

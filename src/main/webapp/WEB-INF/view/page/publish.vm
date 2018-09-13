@@ -1,0 +1,64 @@
+##<head>
+##    <title>$!{article.title}</title>
+##</head>
+##<body>
+    #define($content)
+    <div class="am-g am-margin-top">
+        <div class="ItemTitle am-u-sm-4 am-u-md-2 am-text-right">
+            标题
+        </div>
+        <div class="am-u-sm-6 am-u-sm-4 am-u-end col-end">
+            <input id="title" type="text" class="am-input-sm am-u-end col-end" value='$!{article.title}'>
+        </div>
+    </div>
+
+    <div class="am-g am-margin-top">
+        <div class="ItemTitle am-u-sm-4 am-u-md-2 am-text-right">
+            内容
+        </div>
+        <div class="am-u-sm-6 am-u-sm-4 am-u-end col-end">
+            <input id="content" type="text" class="am-input-sm am-u-end col-end" value='$!{article.richContent}'>
+        </div>
+    </div>
+
+    <div class="am-g am-margin-top">
+        <div class="am-u-sm-6 am-u-sm-4 am-u-end col-end">
+            <input id="submit" type="button" onclick="submit()" class="am-input-sm am-u-end col-end" value="提交">
+        </div>
+    </div>
+
+    <script>
+        function submit() {
+            var authorId = 1;
+            var title = $("#title").val();
+            var content = $("#content").val();
+
+            var jsonData = {
+                authorId: authorId,
+                title: title,
+                richContent: content,
+                simpleContent: content,
+            };
+
+            $.ajax({
+                url: "/blog/article/publish",
+                type: 'POST',
+                contentType: "application/json; charset=UTF-8",
+                data: JSON.stringify(jsonData),
+                dataType: "json",
+                success: function (data) {
+                    if (data.retCode == 0) {
+                        alert(data.msg);
+                        window.location.href = "/blog/article/" + data.data;
+                    } else {
+                        alert("code:" + data.retCode + ", msg:" + data.msg);
+                    }
+                },
+                error: function(){
+                    alert("系统异常");
+                }
+            });
+        }
+    </script>
+    #end
+##</body>

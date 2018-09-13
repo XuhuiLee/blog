@@ -1,0 +1,7 @@
+##<link href="/static/css/footer.css" rel="stylesheet"/>
+<footer class="am-margin-top">
+    <hr/>
+    <p class="am-text-center">
+        <small>&copy; <script>document.write(new Date().getFullYear())</script> Lee Tel:188xxxx9187 <a href="http://www.miitbeian.gov.cn/" target="_blank">京ICP备15060321号</a></small>
+    </p>
+</footer>

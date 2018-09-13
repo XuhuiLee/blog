@@ -1,2 +1,2 @@
 # blog
-A private technique article blog website
+私人技术博客，自用
