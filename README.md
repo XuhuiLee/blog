@@ -1,2 +1,2 @@
 # blog
-私人技术博客，自用
+A private blog project using SpringMVC
