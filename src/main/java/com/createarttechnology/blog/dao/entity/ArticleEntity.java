@@ -1,17 +1,17 @@
-package com.createarttechnology.blog.bean;
+package com.createarttechnology.blog.dao.entity;
 
 /**
- * Created by lixuhui on 2018/9/13.
+ * Created by lixuhui on 2018/9/14.
  */
-public class Article {
+public class ArticleEntity {
     private long id;
-    private long authorId;
     private String title;
     private String richContent;
     private String simpleContent;
-    private String tags;
+    private int tag;
     private String pics;
-    private String videos;
+    private long createTime;
+    private long updateTime;
 
     public long getId() {
         return id;
@@ -19,14 +19,6 @@ public class Article {
 
     public void setId(long id) {
         this.id = id;
-    }
-
-    public long getAuthorId() {
-        return authorId;
-    }
-
-    public void setAuthorId(long authorId) {
-        this.authorId = authorId;
     }
 
     public String getTitle() {
@@ -53,12 +45,12 @@ public class Article {
         this.simpleContent = simpleContent;
     }
 
-    public String getTags() {
-        return tags;
+    public int getTag() {
+        return tag;
     }
 
-    public void setTags(String tags) {
-        this.tags = tags;
+    public void setTag(int tag) {
+        this.tag = tag;
     }
 
     public String getPics() {
@@ -69,25 +61,33 @@ public class Article {
         this.pics = pics;
     }
 
-    public String getVideos() {
-        return videos;
+    public long getCreateTime() {
+        return createTime;
     }
 
-    public void setVideos(String videos) {
-        this.videos = videos;
+    public void setCreateTime(long createTime) {
+        this.createTime = createTime;
+    }
+
+    public long getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(long updateTime) {
+        this.updateTime = updateTime;
     }
 
     @Override
     public String toString() {
-        return "Article{" +
+        return "ArticleEntity{" +
                 "id=" + id +
-                ", authorId=" + authorId +
                 ", title='" + title + '\'' +
                 ", richContent='" + richContent + '\'' +
                 ", simpleContent='" + simpleContent + '\'' +
-                ", tags='" + tags + '\'' +
+                ", tag=" + tag +
                 ", pics='" + pics + '\'' +
-                ", videos='" + videos + '\'' +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
                 '}';
     }
 }
