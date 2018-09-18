@@ -18,6 +18,8 @@
                 <version>2.2</version>
                 <configuration>
                     <webXml>src\main\webapp\web.xml</webXml>
+                    <source>1.8</source>
+                    <target>1.8</target>
                 </configuration>
             </plugin>
         </plugins>
