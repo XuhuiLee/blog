@@ -1,31 +1,4 @@
 ##<link href="/sf/css/header.css" rel="stylesheet"/>
-##<script src="/sf/js/header.js"></script>
-##<header class="am-topbar am-topbar-fixed-top">
-##    <div class="am-container">
-##        <h1 class="am-topbar-brand am-topbar-brand-secondary">
-##            <a href="/" class="font-white">CreateArtTechnology</a>
-##        </h1>
-##        <div class="am-collapse am-topbar-collapse" id="collapse-head">
-##            #if(${page.login})
-##                <div class="am-topbar-right am-btn-group">
-##                    <li class="am-dropdown" data-am-dropdown>
-##                        <a class="am-btn am-btn-xl am-dropdown-toggle font-white" data-am-dropdown-toggle href="javascript:;">
-##                            $!{user.nickname} <span class="am-icon-caret-down"></span>
-##                        </a>
-##                        <ul class="am-topbar-right am-dropdown-content">
-##                            <li><a class="am-btn am-btn-xl am-radius font-white" href="/account">个人中心</a></li>
-##                            <li><a class="am-btn am-btn-xl am-radius font-white" onclick="logout()">登出账号</a></li>
-##                        </ul>
-##                    </li>
-##                </div>
-##            #else
-##                <div class="am-topbar-right am-btn-group">
-##                    <a class="am-btn am-btn-xl am-radius font-white" href="/login">登录</a>
-##                </div>
-##            #end
-##        </div>
-##    </div>
-##</header>
 <header class="am-topbar admin-header">
     <div class="am-topbar-brand am-topbar-brand-secondary">
         <strong>CreateArtTechnology</strong> <small>/Blog</small>
@@ -36,8 +9,8 @@
     <div class="am-collapse am-topbar-collapse" id="topbar-collapse">
 
         <ul class="am-nav am-nav-pills am-topbar-nav am-topbar-right admin-header-list">
-            <li><a href="/blog/article/form"><span class="am-icon-pencil-square-o"></span> 添加文章 </a></li>
             #if($!{page.admin})
+                <li><a href="/blog/article/form"><span class="am-icon-pencil-square-o"></span> 添加文章 </a></li>
                 <li class="am-dropdown" data-am-dropdown>
                     <a class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
                         <span class="am-icon-users"></span> Lee <span class="am-icon-caret-down"></span>
