@@ -1,0 +1,27 @@
+#define($content)
+<div class="header am-u-lg-6 am-u-md-8 am-u-sm-centered">
+    <div class="am-g">
+        <h1><br/>You don't have permission</h1>
+        <p>私人博客，自用</p>
+    </div>
+</div>
+<hr />
+<div class="am-g">
+    <div class="am-u-lg-6 am-u-md-8 am-u-sm-centered">
+        <br>
+        <div method="post" class="am-form">
+            <label for="email">Username:</label>
+            <input type="text" name="" id="username" value="">
+            <br>
+            <label for="password">Password:</label>
+            <input type="password" name="" id="password" value="">
+            <br>
+            <br/>
+            <div class="am-cf">
+                <input type="submit" name="" value="Login" class="am-btn am-btn-primary am-btn-lg am-center">
+            </div>
+        </div>
+        <hr>
+    </div>
+</div>
+#end

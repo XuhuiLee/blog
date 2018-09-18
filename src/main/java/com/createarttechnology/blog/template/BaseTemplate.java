@@ -1,21 +1,22 @@
 package com.createarttechnology.blog.template;
 
+import com.createarttechnology.blog.bean.response.Tag;
+import com.createarttechnology.blog.service.TagService;
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 /**
  * Created by Lee on 2018/9/15.
  */
 public class BaseTemplate {
     private HttpServletRequest request;
-    private HttpServletResponse response;
 
-    private boolean admin;
+    private boolean admin = false;
 
-    public BaseTemplate(HttpServletRequest request, HttpServletResponse response) {
+    public BaseTemplate(HttpServletRequest request) {
         this.request = request;
-        this.response = response;
         init();
     }
 
@@ -28,6 +29,15 @@ public class BaseTemplate {
                 }
             }
         }
+    }
+
+    public boolean isAdmin() {
+        return admin;
+    }
+
+    public List<Tag> getTopTags() {
+        System.out.println(TagService.getTopTagList());
+        return TagService.getTopTagList();
     }
 
 }

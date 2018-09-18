@@ -3,6 +3,7 @@ package com.createarttechnology.blog.controller;
 import com.createarttechnology.blog.bean.response.Article;
 import com.createarttechnology.blog.bean.response.ListItem;
 import com.createarttechnology.blog.service.ReadService;
+import com.createarttechnology.blog.template.BaseTemplate;
 import com.createarttechnology.jutil.log.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -25,29 +27,44 @@ public class ReadController {
     private ReadService readService;
 
     @RequestMapping(value = {"/", "/list"})
-    public String list(Model model) {
+    public String list(HttpServletRequest request, Model model) {
+        BaseTemplate tpl = new BaseTemplate(request);
         List<ListItem> itemList = readService.getListItemList();
         model.addAttribute("list", itemList);
+        model.addAttribute("page", tpl);
         return "page/list";
     }
 
     @RequestMapping("/article/{id}")
-    public String article(@PathVariable(value = "id") long id, Model model) {
+    public String article(@PathVariable(value = "id") long id, HttpServletRequest request, Model model) {
+        BaseTemplate tpl = new BaseTemplate(request);
         Article article = readService.getArticle(id);
         model.addAttribute("article", article);
-        return "page/article";
+        model.addAttribute("page", tpl);
+        return "page/article/article";
     }
 
-    @RequestMapping("/article/publish")
-    public String articlePublish() {
-        return "page/publish";
+    @RequestMapping("/article/form")
+    public String articlePublish(HttpServletRequest request, Model model) {
+        BaseTemplate tpl = new BaseTemplate(request);
+        model.addAttribute("page", tpl);
+        return "page/article/form";
     }
 
     @RequestMapping("/article/update")
-    public String articleUpdate(@RequestParam(value = "id", required = false, defaultValue = "0") long id, Model model) {
+    public String articleUpdate(@RequestParam(value = "id", required = false, defaultValue = "0") long id, HttpServletRequest request, Model model) {
+        BaseTemplate tpl = new BaseTemplate(request);
         Article article = readService.getArticle(id);
         model.addAttribute("article", article);
-        return "page/publish";
+        model.addAttribute("page", tpl);
+        return "page/article/form";
+    }
+
+    @RequestMapping("/private-login")
+    public String privateLogin(HttpServletRequest request, Model model) {
+        BaseTemplate tpl = new BaseTemplate(request);
+        model.addAttribute("page", tpl);
+        return "page/login";
     }
 
 

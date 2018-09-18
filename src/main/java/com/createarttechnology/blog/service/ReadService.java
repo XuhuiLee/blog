@@ -4,10 +4,11 @@ import com.createarttechnology.blog.bean.response.Article;
 import com.createarttechnology.blog.bean.response.ListItem;
 import com.createarttechnology.blog.bean.response.Tag;
 import com.createarttechnology.blog.dao.entity.ArticleEntity;
-import com.createarttechnology.blog.dao.entity.TagEntity;
+import com.createarttechnology.blog.util.CollectionUtil;
 import com.createarttechnology.blog.util.Converter;
+import com.createarttechnology.jutil.StringUtil;
 import com.createarttechnology.jutil.log.Logger;
-import org.apache.commons.collections.CollectionUtils;
+import com.google.common.base.Splitter;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -23,11 +24,17 @@ public class ReadService {
 
     @Resource
     private StorageService storageService;
+    @Resource
+    private TagService tagService;
 
     public Article getArticle(long id) {
         ArticleEntity entity = storageService.getArticleEntity(id);
         Article article = Converter.articleEntity2Article(entity);
-        article.setTag(getTagFromId(entity.getTag()));
+        if (StringUtil.isNotEmpty(entity.getTags())) {
+            List<Integer> tagIds = CollectionUtil.transformList(Splitter.on(',').omitEmptyStrings().trimResults().splitToList(entity.getTags()), s -> StringUtil.convertInt(s, 0));
+            List<Tag> tags = tagService.getTagParentPathList(tagIds);
+            article.setTags(tags);
+        }
         return article;
     }
 
@@ -36,16 +43,5 @@ public class ReadService {
         return Converter.articleEntityList2ListItemList(entity);
     }
 
-    public Tag getTagFromId(int id) {
-        TagEntity tagEntity = storageService.getTagEntity(id);
-        return Converter.tagEntity2Tag(tagEntity);
-    }
-    public List<Tag> getTagListFromIds(List<Integer> ids) {
-        if (CollectionUtils.isNotEmpty(ids)) {
-            List<TagEntity> tagEntities = storageService.getTagEntityList(ids);
-            return Converter.tagEntityList2TagList(tagEntities);
-        }
-        return null;
-    }
 
 }

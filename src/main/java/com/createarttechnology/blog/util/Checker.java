@@ -20,8 +20,6 @@ public class Checker {
             return resp.setMsg("title error");
         if (StringUtil.isEmpty(req.getContent()))
             return resp.setMsg("content error");
-        if (req.getTag() < 0)
-            return resp.setMsg("tag error");
 
         return resp.setErrorInfo(ErrorInfo.SUCCESS);
     }

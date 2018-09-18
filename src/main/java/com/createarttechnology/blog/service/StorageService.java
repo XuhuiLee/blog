@@ -5,7 +5,6 @@ import com.createarttechnology.blog.dao.entity.TagEntity;
 import com.createarttechnology.blog.dao.mapper.ArticleMapper;
 import com.createarttechnology.blog.dao.mapper.TagMapper;
 import com.createarttechnology.jutil.log.Logger;
-import com.google.common.base.Joiner;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -60,20 +59,11 @@ public class StorageService {
         }
     }
 
-    public TagEntity getTagEntity(int id) {
+    public List<TagEntity> getAllTagEntityList() {
         try {
-            return tagMapper.getTag(id);
+            return tagMapper.getAllTagList();
         } catch (Exception e) {
-            logger.error("tagMapper.getTag error, id={}, e:", id, e);
-        }
-        return null;
-    }
-
-    public List<TagEntity> getTagEntityList(List<Integer> ids) {
-        try {
-            return tagMapper.getTagList(Joiner.on(',').join(ids));
-        } catch (Exception e) {
-            logger.error("tagMapper.getTagList error, ids={}, e:", ids, e);
+            logger.error("tagMapper.getAllTagList error, e:", e);
         }
         return null;
     }

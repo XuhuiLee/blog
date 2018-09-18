@@ -1,0 +1,34 @@
+#define($content)
+<script src="/sf/ueditor/ueditor.config.js"></script>
+<script src="/sf/ueditor/ueditor.all.js"></script>
+<script src="/sf/ueditor/zh-cn.js"></script>
+
+<script src="/sf/js/blog/page/publish.js"></script>
+
+<div class="am-g am-margin-top">
+    <div class="ItemTitle am-u-sm-4 am-u-md-2 am-text-right">
+        标题
+    </div>
+    <div class="am-u-sm-6 am-u-sm-4 am-u-end col-end">
+        <input id="title" type="text" class="am-input-sm am-u-end col-end" value='$!{article.title}'>
+    </div>
+</div>
+
+<div class="am-g am-margin-top">
+    <div class="ItemTitle am-u-sm-4 am-u-md-2 am-text-right">
+        内容
+    </div>
+    <div class="am-u-sm-6 am-u-sm-4 am-u-end col-end">
+        <script id="editor_content" type="text/plain">
+                    $!{article.richContent}
+                </script>
+    </div>
+</div>
+
+<div class="am-g am-margin-top">
+    <div class="am-u-sm-6 am-u-sm-4 am-u-end col-end">
+        <input id="submit" type="button" onclick="submit($!{article.id})" class="am-input-sm am-u-end col-end" value="提交">
+    </div>
+</div>
+
+#end

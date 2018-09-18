@@ -1,0 +1,6 @@
+#define($content)
+    #if($!{article})
+    <h1>$!{article.title}</h1>
+    <div>$!{article.richContent}</div>
+    #end
+#end

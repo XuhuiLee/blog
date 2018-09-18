@@ -22,6 +22,8 @@ public class WriteService {
 
     @Resource
     private StorageService storageService;
+    @Resource
+    private TagService tagService;
 
 
     public BaseResp saveArticle(SaveArticleReq req, boolean modify) {
@@ -29,7 +31,7 @@ public class WriteService {
         entity.setTitle(req.getTitle());
         entity.setRichContent(req.getContent());
         entity.setSimpleContent(RichTextUtil.toSimpleText(req.getContent()));
-        entity.setTag(req.getTag());
+        entity.setTags(req.getTags());
         List<String> pics = RichTextUtil.extractPicsFromContentByJSoup(entity.getRichContent());
         if (CollectionUtils.isNotEmpty(pics)) {
             entity.setPics(JSON.toJSONString(pics));
@@ -49,21 +51,26 @@ public class WriteService {
     }
 
     public BaseResp saveTag(SaveTagReq req, boolean modify) {
+        BaseResp<Integer> resp = new BaseResp<>();
+        if (!tagService.isValidParentId(req.getParentId())) {
+            return resp.setErrorInfo(ErrorInfo.INVALID_PARAMS);
+        }
+
         TagEntity entity = new TagEntity();
         entity.setParentId(req.getParentId());
         entity.setName(req.getName());
 
-        BaseResp<Integer> resp = new BaseResp<>();
         if (!modify) {
             int id = storageService.saveTagEntity(entity);
             if (id > 0) {
                 resp.setErrorInfo(ErrorInfo.SUCCESS).setData(id);
             }
-            return resp;
         } else {
             storageService.updateTagEntity(req.getId(), entity);
-            return resp.setErrorInfo(ErrorInfo.SUCCESS).setData(req.getId());
+            resp.setErrorInfo(ErrorInfo.SUCCESS).setData(req.getId());
         }
+        tagService.buildTagTree();
+        return resp;
     }
 
 }

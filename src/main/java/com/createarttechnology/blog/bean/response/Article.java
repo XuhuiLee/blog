@@ -1,5 +1,7 @@
 package com.createarttechnology.blog.bean.response;
 
+import java.util.List;
+
 /**
  * Created by lixuhui on 2018/9/13.
  */
@@ -7,7 +9,7 @@ public class Article {
     private long id;
     private String title;
     private String richContent;
-    private Tag tag;
+    private List<Tag> tags;
     private String createTime;
     private String updateTime;
 
@@ -35,12 +37,12 @@ public class Article {
         this.richContent = richContent;
     }
 
-    public Tag getTag() {
-        return tag;
+    public List<Tag> getTags() {
+        return tags;
     }
 
-    public void setTag(Tag tag) {
-        this.tag = tag;
+    public void setTags(List<Tag> tags) {
+        this.tags = tags;
     }
 
     public String getCreateTime() {
@@ -65,7 +67,7 @@ public class Article {
                 "id=" + id +
                 ", title='" + title + '\'' +
                 ", richContent='" + richContent + '\'' +
-                ", tag=" + tag +
+                ", tags=" + tags +
                 ", createTime='" + createTime + '\'' +
                 ", updateTime='" + updateTime + '\'' +
                 '}';

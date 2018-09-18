@@ -18,6 +18,9 @@ public interface TagMapper {
     @Select("SELeCT * FROM tag WHERE id IN (#{ids})")
     List<TagEntity> getTagList(@Param("ids") String ids) throws Exception;
 
+    @Select("SELeCT * FROM tag")
+    List<TagEntity> getAllTagList() throws Exception;
+
     @Insert("INSERT INTO tag(parent_id, name) VALUES (#{tag.parentId}, #{tag.name})")
     @Options(useGeneratedKeys = true, keyColumn = "id", keyProperty = "tag.id")
     void saveTag(@Param("tag") TagEntity tag) throws Exception;

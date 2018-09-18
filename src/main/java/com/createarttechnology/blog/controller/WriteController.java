@@ -39,6 +39,9 @@ public class WriteController {
         if (modify && req.getId() <= 0) {
             return resp.setErrorInfo(ErrorInfo.INVALID_PARAMS);
         }
+        if (!modify && req.getId() > 0) {
+            return resp.setErrorInfo(ErrorInfo.INVALID_PARAMS);
+        }
         resp = Checker.checkSaveArticleReq(req);
         if (!resp.success()) {
             return resp;
@@ -61,6 +64,9 @@ public class WriteController {
                 return resp.setErrorInfo(ErrorInfo.INVALID_PARAMS);
         }
         if (modify && req.getId() <= 0) {
+            return resp.setErrorInfo(ErrorInfo.INVALID_PARAMS);
+        }
+        if (!modify && req.getId() > 0) {
             return resp.setErrorInfo(ErrorInfo.INVALID_PARAMS);
         }
         resp = Checker.checkSaveTagReq(req);
