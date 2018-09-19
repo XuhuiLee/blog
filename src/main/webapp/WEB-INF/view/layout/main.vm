@@ -47,7 +47,6 @@
     <script src="/sf/amazeui/js/amazeui.min.js"></script>
 
     <script src="/sf/js/blog/page/login.js"></script>
-
 </head>
 <body>
     <!--[if lte IE 9]>

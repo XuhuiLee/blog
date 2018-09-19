@@ -7,6 +7,7 @@ import com.createarttechnology.blog.constants.ErrorInfo;
 import com.createarttechnology.blog.service.WriteService;
 import com.createarttechnology.blog.util.Checker;
 import com.createarttechnology.jutil.log.Logger;
+import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -83,7 +84,9 @@ public class WriteController {
         logger.info("login, username={}, password={}", username, password);
         BaseResp resp = new BaseResp();
 
-        if ("root".equals(username) && "password".equals(password)) {
+        logger.info("password={}, md5={}", password, DigestUtils.md5DigestAsHex("password".getBytes()));
+        // 后续admin的用户名和密码从配置中心读取，先用个假的
+        if ("root".equals(username) && DigestUtils.md5DigestAsHex("password".getBytes()).equalsIgnoreCase(password)) {
             Cookie cookie = new Cookie("cat_blog_pass", "1");
             response.addCookie(cookie);
             return resp.setErrorInfo(ErrorInfo.SUCCESS);

@@ -1,12 +1,12 @@
-#set($topTags=${page.topTags})
+<link rel="stylesheet" href="/sf/css/blog/page/sidebar.css">
+<script src="/sf/js/blog/page/sidebar.js"></script>
 <div class="admin-sidebar am-offcanvas" id="admin-offcanvas">
     <div class="am-offcanvas-bar admin-offcanvas-bar">
         <ul class="am-list admin-sidebar-list">
             <li class="admin-parent">
-                <a class="am-cf am-collapsed" data-am-collapse="{target: '#collapse-nav-system'}">
+                <a href="/blog/list?tagId=0" class="am-cf am-collapsed">
                     <span class="am-icon-book"></span>
                     未分类
-                    <span class="am-icon-angle-right am-fr am-margin-right"></span>
                 </a>
             </li>
             #if($!{page.topTags})
@@ -30,6 +30,9 @@
                                                 <span class="am-icon-file-text"></span>
                                             #end
                                             $!{l2Tag.name}
+                                            #if($!{l2Tag.subTags})
+                                                <span class="am-icon-angle-right am-fr am-margin-right"></span>
+                                            #end
                                         </a>
                                         #if($!{l2Tag.subTags})
                                             <ul class="am-list am-collapse admin-sidebar-sub #if($!{tag_1.id} == $!{l2Tag.id}) am-in #end" id="collapse-nav-$!{l2Tag.id}">
@@ -59,13 +62,7 @@
                     </a>
                     <ul class="am-list am-collapse admin-sidebar-sub" id="collapse-nav-system">
                             <li>
-                                <a href="/blog/article/form" target="_blank" class="am-cf">
-                                    <span class="am-icon-pencil-square-o"></span>
-                                    添加文章
-                                </a>
-                            </li>
-                            <li>
-                                <a href="" target="_blank" class="am-cf">
+                                <a onclick="showSign(0)" class="am-cf">
                                     <span class="am-icon-tag"></span>
                                     添加Tag
                                 </a>
@@ -78,16 +75,59 @@
 
         <div class="am-panel am-panel-default admin-sidebar-panel">
             <div class="am-panel-bd">
-                <p><span class="am-icon-bookmark"></span> 公告</p>
-                <p>时光静好，与君语；细水流年，与君同。—— Amaze UI</p>
-            </div>
-        </div>
-
-        <div class="am-panel am-panel-default admin-sidebar-panel">
-            <div class="am-panel-bd">
-                <p><span class="am-icon-tag"></span> wiki</p>
-                <p>Welcome to the Amaze UI wiki!</p>
+                <p><span class="am-icon-tag"></span> 你好世界！</p>
+                <p>这是我用于归档经验、笔记、想法、设计、目标的博客，自用。 ——Lee</p>
             </div>
         </div>
     </div>
 </div>
+
+#if($!{page.admin})
+    <div id="tag_form_wrap" class="am-g">
+        <div id="tag_form" class="am-u-md-8 am-u-sm-centered am-margin am-panel am-panel-default admin-sidebar-panel">
+            <div class="am-fr">
+                <button id="tag_form_id" type="button" class="am-close" onclick="showSign(0)" value="0">&times;</button>
+            </div>
+            <div class="am-form am-margin am-margin-lg">
+                <fieldset class="am-form-set">
+                    <input id="tag_form_name" type="text" placeholder="Tag名">
+                    <div class="am-btn-group am-margin-top">
+                        <div id="tag_form_dropdown" class="am-dropdown" data-am-dropdown>
+                            <button id="tag_form_parent_id" class="am-btn am-btn-gray am-dropdown-toggle am-btn-sm" data-am-dropdown-toggle value="0">
+                                <span class="am-icon-bookmark"></span>
+                                父级Tag：无
+                                <span class="am-icon-caret-down"></span>
+                            </button>
+                            #if($!{page.topTags})
+                                <ul class="am-dropdown-content">
+                                    <li><a onclick="selectFormTag(0, '父级Tag：无')" class="am-text-xs"> 无 </a></li>
+                                    #foreach($l1Tag in $!{page.topTags})
+                                        <li class="am-divider"></li>
+                                        <li><a onclick="selectFormTag($!{l1Tag.id}, '父级Tag：$!{l1Tag.name}')" class="am-text-xs">
+                                             $!{l1Tag.name}
+                                        </a></li>
+                                        #if($!{l1Tag.subTags})
+                                            #foreach($l2Tag in $!{l1Tag.subTags})
+                                                <li><a onclick="selectFormTag($!{l2Tag.id}, '父级Tag：$!{l2Tag.name}')" class="am-text-xs">
+                                                    <span class="am-icon-angle-right"/>
+                                                    $!{l2Tag.name}
+                                                </a></li>
+                                            #end
+                                        #end
+                                    #end
+                                </ul>
+                            #end
+                        </div>
+                    </div>
+                    <br>
+                </fieldset>
+            </div>
+            <div>
+                <hr>
+            </div>
+            <div class="am-form am-margin am-margin-lg">
+                <button type="submit" class="am-btn am-btn-primary am-btn-block" onclick="submitTag()">Submit</button>
+            </div>
+        </div>
+    </div>
+#end

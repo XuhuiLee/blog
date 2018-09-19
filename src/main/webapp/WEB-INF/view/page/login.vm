@@ -1,4 +1,5 @@
 #define($content)
+<script src="/sf/js/common/md5.js"></script>
 <div class="admin-content-body">
     <div class="header am-u-lg-4 am-u-md-8 am-u-sm-centered">
         <div class="am-g">

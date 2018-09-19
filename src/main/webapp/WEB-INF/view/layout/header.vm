@@ -1,7 +1,7 @@
 ##<link href="/sf/css/header.css" rel="stylesheet"/>
 <header class="am-topbar admin-header">
     <div class="am-topbar-brand am-topbar-brand-secondary">
-        <strong>CreateArtTechnology</strong> <small>/Blog</small>
+        <a href="/blog"><strong>CreateArtTechnology</strong> <small>/ Blog</small></a>
     </div>
 
 ##    <button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only" data-am-collapse="{target: '#topbar-collapse'}"><span class="am-sr-only">导航切换</span> <span class="am-icon-bars"></span></button>

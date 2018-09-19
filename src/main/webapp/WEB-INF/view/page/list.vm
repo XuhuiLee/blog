@@ -31,12 +31,21 @@
         </div>
     </div>
     <hr />
-    <div>
-        <ul>
+    <div class="am-u-lg-12 am-u-md-11 am-u-sm-centered">
+        <ul class="am-list">
             #if($!{list} && $!{list.size()} > 0)
                 #foreach($article in $!{list})
-                    <li class="news_title">
-                        <a href="/blog/article/$!{article.id}" target="_blank">$!{article.title}</a>
+                    <li>
+                        <div class="am-cf am-padding">
+                            <a href="/blog/article/$!{article.id}">
+                                <div class="am-fl am-cf">
+                                    $!{article.title}
+                                </div>
+                                <div class="am-fr am-cf">
+                                    $!{article.createTime}
+                                </div>
+                            </a>
+                        </div>
                     </li>
                 #end
             #end
