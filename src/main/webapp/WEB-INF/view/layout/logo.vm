@@ -1,8 +1,0 @@
-<link href="/static/css/logo.css" rel="stylesheet"/>
-<div class="am-g logo">
-    <div class="am-u-sm-2 am-u-sm-centered">
-        <a href="/">
-            <img src="/static/img/title.png" height="200" alt="首页" />
-        </a>
-    </div>
-</div>

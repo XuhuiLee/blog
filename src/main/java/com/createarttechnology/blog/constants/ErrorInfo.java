@@ -8,6 +8,7 @@ public enum ErrorInfo {
     ERROR(-1, "error"),
     DB_ERROR(-2, "db error"),
     INVALID_PARAMS(-3, "invalid params"),
+    NO_AUTH(-4, "no auth"),
     ;
 
 

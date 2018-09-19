@@ -6,9 +6,8 @@ import com.createarttechnology.blog.bean.response.Tag;
 import com.createarttechnology.blog.dao.entity.ArticleEntity;
 import com.createarttechnology.blog.util.CollectionUtil;
 import com.createarttechnology.blog.util.Converter;
-import com.createarttechnology.jutil.StringUtil;
 import com.createarttechnology.jutil.log.Logger;
-import com.google.common.base.Splitter;
+import com.google.common.collect.Lists;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -22,6 +21,8 @@ public class ReadService {
 
     private static final Logger logger = Logger.getLogger(ReadService.class);
 
+    private static final List<Tag> NO_TAG_LIST = Lists.newArrayList(new Tag().setName("未分类"));
+
     @Resource
     private StorageService storageService;
     @Resource
@@ -30,18 +31,26 @@ public class ReadService {
     public Article getArticle(long id) {
         ArticleEntity entity = storageService.getArticleEntity(id);
         Article article = Converter.articleEntity2Article(entity);
-        if (StringUtil.isNotEmpty(entity.getTags())) {
-            List<Integer> tagIds = CollectionUtil.transformList(Splitter.on(',').omitEmptyStrings().trimResults().splitToList(entity.getTags()), s -> StringUtil.convertInt(s, 0));
-            List<Tag> tags = tagService.getTagParentPathList(tagIds);
+        if (entity.getTag() > 0) {
+            List<Tag> tags = tagService.getTagParentPath(entity.getTag());
             article.setTags(tags);
+        } else {
+            article.setTags(NO_TAG_LIST);
         }
         return article;
     }
 
-    public List<ListItem> getListItemList() {
-        List<ArticleEntity> entity = storageService.getArticleEntityList();
+    public List<ListItem> getListItemList(int tagId) {
+        List<ArticleEntity> entity = storageService.getArticleEntityList(tagId);
         return Converter.articleEntityList2ListItemList(entity);
     }
 
+    public List<Integer> getMenuIdList(int tagId) {
+        List<Tag> path = tagService.getTagParentPath(tagId);
+        return CollectionUtil.transformList(path, Tag::getId);
+    }
 
+    public List<Tag> getPath(int tagId) {
+        return tagService.getTagParentPath(tagId);
+    }
 }

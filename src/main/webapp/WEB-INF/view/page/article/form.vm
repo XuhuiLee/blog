@@ -5,36 +5,69 @@
 
 <script src="/sf/js/blog/page/article/form.js"></script>
 
-<div class="am-g">
+<div class="admin-content-body">
     <br>
-    <div class="am-panel am-panel-default am-u-lg-6 am-u-lg-8 am-u-sm-centered">
-        <div class="am-u-lg-8 am-u-lg-10 am-u-sm-centered am-panel-bd">
+        <div class="am-cf am-padding am-padding-bottom-0">
             <div class="am-form">
-                <br>
                 <h1 class="am-form-group am-form-group-xl">
                     <input type="text" name="" id="title" value="$!{article.title}">
                 </h1>
+                <div class="am-btn-group">
+                    <div id="tag_dropdown" class="am-dropdown" data-am-dropdown>
+                        <button id="tag" class="am-btn am-btn-gray am-dropdown-toggle am-btn-sm" data-am-dropdown-toggle value="0">
+                            <span class="am-icon-bookmark"></span>
+                            未分类
+                            <span class="am-icon-caret-down"></span>
+                        </button>
+                        #if($!{page.topTags})
+                            <ul class="am-dropdown-content">
+                                <li><a onclick="selectTag(0, '未分类')" class="am-text-xs"> 未分类 </a></li>
+                                #foreach($l1Tag in $!{page.topTags})
+                                    <li class="am-divider"></li>
+                                    <li><a onclick="selectTag($!{l1Tag.id}, '$!{l1Tag.name}')" class="am-text-xs">
+                                        $!{l1Tag.name}
+                                    </a></li>
+                                    #if($!{l1Tag.subTags})
+                                        #foreach($l2Tag in $!{l1Tag.subTags})
+                                            <li><a onclick="selectTag($!{l2Tag.id}, '$!{l2Tag.name}')" class="am-text-xs">
+                                                <span class="am-icon-angle-right"/>
+                                                $!{l2Tag.name}
+                                            </a></li>
+                                            #if($!{l2Tag.subTags})
+                                                #foreach($l3Tag in $!{l2Tag.subTags})
+                                                    <li><a onclick="selectTag($!{l3Tag.id}, '$!{l3Tag.name}')" class="am-text-xs">
+                                                        <span class="am-icon-angle-double-right"/>
+                                                        $!{l3Tag.name}
+                                                    </a></li>
+                                                #end
+                                            #end
+                                        #end
+                                    #end
+                                #end
+                            </ul>
+                        #end
+                    </div>
+                </div>
             </div>
         </div>
         <hr>
-        <div class="am-u-lg-8 am-u-lg-10 am-u-sm-centered am-panel-bd">
+        <div class="am-cf am-padding am-padding-bottom-0">
             <div class="am-form">
                 <div class="am-form-group am-form-group-lg">
                     <script id="editor_content" type="text/plain">
-                        $!{article.richContent}
-                    </script>
+                            $!{article.richContent}
+                        </script>
                 </div>
             </div>
         </div>
         <hr>
-        <div class="am-u-lg-8 am-u-lg-10 am-u-sm-centered am-panel-bd">
+        <div class="am-cf am-padding am-padding-bottom-0">
             <div class="am-form">
                 <div class="am-form-group am-form-group-lg">
-                    <input type="submit" name="" value="Submit" class="am-btn am-btn-secondary am-btn-lg am-center">
+                    <input type="submit" onclick="submitArticle()" value="Submit" class="am-btn am-btn-secondary am-btn-lg am-center">
                 </div>
             </div>
         </div>
-    </div>
 </div>
 
 #end

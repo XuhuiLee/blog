@@ -46,7 +46,8 @@
     <!--<![endif]-->
     <script src="/sf/amazeui/js/amazeui.min.js"></script>
 
-##    <script src="/static/js/cookie.js"></script>
+    <script src="/sf/js/blog/page/login.js"></script>
+
 </head>
 <body>
     <!--[if lte IE 9]>
@@ -61,6 +62,7 @@
         <div class="admin-content">
             $content
         </div>
+    </div>
 
     <!--[if lt IE 9]>
     <script src="http://libs.baidu.com/jquery/1.11.1/jquery.min.js"></script>

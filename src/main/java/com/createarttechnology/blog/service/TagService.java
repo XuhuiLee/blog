@@ -6,7 +6,6 @@ import com.createarttechnology.blog.util.Converter;
 import com.createarttechnology.jutil.log.Logger;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
@@ -14,7 +13,6 @@ import javax.annotation.Resource;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * Created by lixuhui on 2018/9/18.
@@ -83,26 +81,6 @@ public class TagService {
         return TAG_CACHE.get(id);
     }
 
-    public List<Tag> getTagList(List<Integer> ids) {
-        return CollectionUtil.transformList(ids, TAG_CACHE::get);
-    }
-
-    public List<Tag> getTagParentPathList(List<Integer> ids) {
-        if (CollectionUtil.isNotEmpty(ids)) {
-            Set<Tag> set = Sets.newHashSet();
-            for (int id : ids) {
-                List<Tag> path = getTagParentPath(id);
-                if (path != null) {
-                    set.addAll(path);
-                }
-            }
-            List<Tag> list = Lists.newArrayList(set);
-            list.sort(Comparator.comparingInt(Tag::getLevel));
-            return list;
-        }
-        return null;
-    }
-
     public List<Tag> getTagParentPath(int id) {
         if (TAG_PATH_CACHE.get(id) != null) {
             return TAG_PATH_CACHE.get(id);
@@ -114,8 +92,11 @@ public class TagService {
             pathList.add(currentTag);
             if (currentTag.getParentId() > 0) {
                 currentId = currentTag.getParentId();
+            } else {
+                break;
             }
         }
+        pathList.sort(Comparator.comparingInt(Tag::getLevel));
         TAG_PATH_CACHE.put(id, pathList);
         return pathList;
     }

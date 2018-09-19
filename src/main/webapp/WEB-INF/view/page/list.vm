@@ -1,24 +1,46 @@
 #define($content)
-##<head>
-##    <title>blog</title>
-##</head>
-##<body>
-
-<div class="am-g am-margin-top">
-    <div class="am-u-sm-6 am-u-sm-4 am-u-end col-end">
-        <a target="_blank" href="/blog/article/publish">发布</a>
+<div class="admin-content-body">
+    <div class="am-cf am-padding am-padding-bottom-0">
+        <div class="am-fl am-cf">
+            #if($!{tag_0})
+                <strong class="am-text-black am-text-lg">
+                    <a href="/blog/list?tagId=$!{tag_0.id}">
+                        <span class="am-icon-bookmark"></span>
+                        $!{tag_0.name}
+                    </a>
+                </strong>
+            #end
+            #if($!{tag_1})
+                <strong class="am-text-black am-text-lg">
+                    /
+                    <a href="/blog/list?tagId=$!{tag_1.id}">
+                        <span class="am-icon-bookmark"></span>
+                        $!{tag_1.name}
+                    </a>
+                </strong>
+            #end
+            #if($!{tag_2})
+                <strong class="am-text-black am-text-lg">
+                    /
+                    <a href="/blog/list?tagId=$!{tag_2.id}">
+                        <span class="am-icon-bookmark"></span>
+                        $!{tag_2.name}
+                    </a>
+                </strong>
+            #end
+        </div>
+    </div>
+    <hr />
+    <div>
+        <ul>
+            #if($!{list} && $!{list.size()} > 0)
+                #foreach($article in $!{list})
+                    <li class="news_title">
+                        <a href="/blog/article/$!{article.id}" target="_blank">$!{article.title}</a>
+                    </li>
+                #end
+            #end
+        </ul>
     </div>
 </div>
-<div>
-    <ul>
-        #if($!{list} && $!{list.size()} > 0)
-            #foreach($article in $!{list})
-                <li class="news_title">
-                    <a href="/blog/article/$!{article.id}" target="_blank">$!{article.title}</a>
-                </li>
-            #end
-        #end
-    </ul>
-</div>
-##</body>
 #end

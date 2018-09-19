@@ -26,8 +26,8 @@ public class Converter {
         output.setId(input.getId());
         output.setTitle(input.getTitle());
         output.setRichContent(input.getRichContent());
-        output.setCreateTime(TimeUtil.getTimeString(input.getCreateTime()));
-        output.setUpdateTime(TimeUtil.getTimeString(input.getUpdateTime()));
+        output.setCreateTime(TimeUtil.getTimeStringInt(input.getCreateTime()));
+        output.setUpdateTime(TimeUtil.getTimeStringInt(input.getUpdateTime()));
 
         return output;
     }
@@ -44,8 +44,8 @@ public class Converter {
         if (StringUtil.isNotEmpty(input.getPics())) {
             output.setPics(JSON.parseArray(input.getPics(), String.class));
         }
-        output.setCreateTime(TimeUtil.getTimeString(input.getCreateTime()));
-        output.setUpdateTime(TimeUtil.getTimeString(input.getUpdateTime()));
+        output.setCreateTime(TimeUtil.getTimeStringInt(input.getCreateTime()));
+        output.setUpdateTime(TimeUtil.getTimeStringInt(input.getUpdateTime()));
 
         return output;
     }

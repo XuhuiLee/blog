@@ -8,10 +8,10 @@ public class ArticleEntity {
     private String title;
     private String richContent;
     private String simpleContent;
-    private String tags;
+    private int tag;
     private String pics;
-    private long createTime;
-    private long updateTime;
+    private int createTime;
+    private int updateTime;
 
     public long getId() {
         return id;
@@ -45,12 +45,12 @@ public class ArticleEntity {
         this.simpleContent = simpleContent;
     }
 
-    public String getTags() {
-        return tags;
+    public int getTag() {
+        return tag;
     }
 
-    public void setTags(String tags) {
-        this.tags = tags;
+    public void setTag(int tag) {
+        this.tag = tag;
     }
 
     public String getPics() {
@@ -61,19 +61,19 @@ public class ArticleEntity {
         this.pics = pics;
     }
 
-    public long getCreateTime() {
+    public int getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(long createTime) {
+    public void setCreateTime(int createTime) {
         this.createTime = createTime;
     }
 
-    public long getUpdateTime() {
+    public int getUpdateTime() {
         return updateTime;
     }
 
-    public void setUpdateTime(long updateTime) {
+    public void setUpdateTime(int updateTime) {
         this.updateTime = updateTime;
     }
 
@@ -84,7 +84,7 @@ public class ArticleEntity {
                 ", title='" + title + '\'' +
                 ", richContent='" + richContent + '\'' +
                 ", simpleContent='" + simpleContent + '\'' +
-                ", tags='" + tags + '\'' +
+                ", tag=" + tag +
                 ", pics='" + pics + '\'' +
                 ", createTime=" + createTime +
                 ", updateTime=" + updateTime +

@@ -2,8 +2,10 @@ package com.createarttechnology.blog.controller;
 
 import com.createarttechnology.blog.bean.response.Article;
 import com.createarttechnology.blog.bean.response.ListItem;
+import com.createarttechnology.blog.bean.response.Tag;
 import com.createarttechnology.blog.service.ReadService;
 import com.createarttechnology.blog.template.BaseTemplate;
+import com.createarttechnology.blog.util.CollectionUtil;
 import com.createarttechnology.jutil.log.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,9 +29,18 @@ public class ReadController {
     private ReadService readService;
 
     @RequestMapping(value = {"/", "/list"})
-    public String list(HttpServletRequest request, Model model) {
+    public String list(@RequestParam(value = "tagId", required = false, defaultValue = "0") int tagId, HttpServletRequest request, Model model) {
         BaseTemplate tpl = new BaseTemplate(request);
-        List<ListItem> itemList = readService.getListItemList();
+        List<ListItem> itemList = readService.getListItemList(tagId);
+        List<Integer> path = readService.getMenuIdList(tagId);
+        List<Tag> path1 = readService.getPath(tagId);
+        if (CollectionUtil.isNotEmpty(path1)) {
+            for (int i = 0; i < path.size(); i++) {
+                model.addAttribute("tag_" + i, path1.get(i));
+            }
+        } else {
+            model.addAttribute("tag_0", new Tag().setName("未分类"));
+        }
         model.addAttribute("list", itemList);
         model.addAttribute("page", tpl);
         return "page/list";

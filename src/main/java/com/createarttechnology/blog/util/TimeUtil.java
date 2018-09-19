@@ -21,7 +21,7 @@ public class TimeUtil {
         return DateFormatUtils.format(time, "yyyy-MM-dd HH:mm:ss");
     }
 
-    public static String getTimeString(long time) {
+    public static String getTimeStringLong(long time) {
         long diff = System.currentTimeMillis() - time;
         if (diff <= ONE_MIN_LONG) {
             return "刚刚";
@@ -32,6 +32,10 @@ public class TimeUtil {
         } else {
             return formatYMDHMS(time);
         }
+    }
+
+    public static String getTimeStringInt(int time) {
+        return getTimeStringLong(time * 1000L);
     }
 
 

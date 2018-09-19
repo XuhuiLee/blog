@@ -34,8 +34,9 @@ public class Tag {
         return name;
     }
 
-    public void setName(String name) {
+    public Tag setName(String name) {
         this.name = name;
+        return this;
     }
 
     public int getLevel() {

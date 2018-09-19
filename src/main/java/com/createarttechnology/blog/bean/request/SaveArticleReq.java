@@ -7,7 +7,7 @@ public class SaveArticleReq {
     private long id;
     private String title;
     private String content;
-    private String tags;
+    private int tag;
 
     public long getId() {
         return id;
@@ -33,12 +33,12 @@ public class SaveArticleReq {
         this.content = content;
     }
 
-    public String getTags() {
-        return tags;
+    public int getTag() {
+        return tag;
     }
 
-    public void setTags(String tags) {
-        this.tags = tags;
+    public void setTag(int tag) {
+        this.tag = tag;
     }
 
     @Override
@@ -47,7 +47,7 @@ public class SaveArticleReq {
                 "id=" + id +
                 ", title='" + title + '\'' +
                 ", content='" + content + '\'' +
-                ", tags='" + tags + '\'' +
+                ", tag=" + tag +
                 '}';
     }
 }

@@ -24,7 +24,7 @@ public class BaseTemplate {
         Cookie[] cookies = request.getCookies();
         if (cookies != null && cookies.length > 0) {
             for (Cookie cookie : cookies) {
-                if ("cat_blog_pass".equals(cookie.getName()) && "pass".equals(cookie.getValue())) {
+                if ("cat_blog_pass".equals(cookie.getName())) {
                     admin = true;
                 }
             }
@@ -36,7 +36,6 @@ public class BaseTemplate {
     }
 
     public List<Tag> getTopTags() {
-        System.out.println(TagService.getTopTagList());
         return TagService.getTopTagList();
     }
 

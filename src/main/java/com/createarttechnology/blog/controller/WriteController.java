@@ -10,6 +10,8 @@ import com.createarttechnology.jutil.log.Logger;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * Created by lixuhui on 2018/9/13.
@@ -76,4 +78,26 @@ public class WriteController {
         return writeService.saveTag(req, modify);
     }
 
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    public BaseResp login(@RequestParam("username") String username, @RequestParam("password") String password, HttpServletResponse response) {
+        logger.info("login, username={}, password={}", username, password);
+        BaseResp resp = new BaseResp();
+
+        if ("root".equals(username) && "password".equals(password)) {
+            Cookie cookie = new Cookie("cat_blog_pass", "1");
+            response.addCookie(cookie);
+            return resp.setErrorInfo(ErrorInfo.SUCCESS);
+        }
+        return resp.setErrorInfo(ErrorInfo.NO_AUTH);
+    }
+
+    @RequestMapping(value = "/logout", method = RequestMethod.POST)
+    public BaseResp logout(HttpServletResponse response) {
+        BaseResp resp = new BaseResp();
+
+        Cookie cookie = new Cookie("cat_blog_pass", "1");
+        cookie.setMaxAge(0);
+        response.addCookie(cookie);
+        return resp.setErrorInfo(ErrorInfo.SUCCESS);
+    }
 }

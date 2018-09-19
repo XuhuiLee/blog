@@ -2,10 +2,17 @@
 <div class="admin-sidebar am-offcanvas" id="admin-offcanvas">
     <div class="am-offcanvas-bar admin-offcanvas-bar">
         <ul class="am-list admin-sidebar-list">
+            <li class="admin-parent">
+                <a class="am-cf am-collapsed" data-am-collapse="{target: '#collapse-nav-system'}">
+                    <span class="am-icon-book"></span>
+                    未分类
+                    <span class="am-icon-angle-right am-fr am-margin-right"></span>
+                </a>
+            </li>
             #if($!{page.topTags})
                 #foreach($l1Tag in $!{page.topTags})
                     <li class="admin-parent">
-                        <a class="am-cf am-collapsed" data-am-collapse="{target: '#collapse-nav-$!{l1Tag.id}'}">
+                        <a href="/blog/list?tagId=$!{l1Tag.id}" class="am-cf #if($!{tag_0.id} != $!{l1Tag.id}) am-collapsed #end">
                             <span class="am-icon-book"></span>
                             $!{l1Tag.name}
                             #if($!{l1Tag.subTags})
@@ -13,29 +20,24 @@
                             #end
                         </a>
                         #if($!{l1Tag.subTags})
-                            <ul class="am-list am-collapse admin-sidebar-sub" id="collapse-nav-$!{l1Tag.id}">
+                            <ul class="am-list am-collapse admin-sidebar-sub #if($!{tag_0.id} == $!{l1Tag.id}) am-in #end" id="collapse-nav-$!{l1Tag.id}">
                                 #foreach($l2Tag in $!{l1Tag.subTags})
                                     <li>
-                                        <a class="am-cf am-collapsed" data-am-collapse="{target: '#collapse-nav-$!{l2Tag.id}'}">
+                                        <a href="/blog/list?tagId=$!{l2Tag.id}" class="am-cf #if($!{tag_1.id} != $!{l2Tag.id}) am-collapsed #end">
                                             #if($!{l2Tag.subTags})
                                                 <span class="am-icon-bookmark"></span>
                                             #else
                                                 <span class="am-icon-file-text"></span>
                                             #end
                                             $!{l2Tag.name}
-                                            #if($!{l2Tag.subTags})
-                                                <span class="am-icon-angle-right am-fr am-margin-right"></span>
-                                            #end
-##                                            <span class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span>
                                         </a>
                                         #if($!{l2Tag.subTags})
-                                            <ul class="am-list am-collapse admin-sidebar-sub" id="collapse-nav-$!{l2Tag.id}">
+                                            <ul class="am-list am-collapse admin-sidebar-sub #if($!{tag_1.id} == $!{l2Tag.id}) am-in #end" id="collapse-nav-$!{l2Tag.id}">
                                             #foreach($l3Tag in $!{l2Tag.subTags})
                                                 <li>
-                                                    <a class="am-cf">
+                                                    <a href="/blog/list?tagId=$!{l3Tag.id}" class="am-cf">
                                                         <span class="am-icon-file-text"></span>
                                                         $!{l3Tag.name}
-##                                                        <span class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span>
                                                     </a>
                                                 </li>
                                             #end

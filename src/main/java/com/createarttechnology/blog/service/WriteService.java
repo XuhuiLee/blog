@@ -31,7 +31,7 @@ public class WriteService {
         entity.setTitle(req.getTitle());
         entity.setRichContent(req.getContent());
         entity.setSimpleContent(RichTextUtil.toSimpleText(req.getContent()));
-        entity.setTags(req.getTags());
+        entity.setTag(req.getTag());
         List<String> pics = RichTextUtil.extractPicsFromContentByJSoup(entity.getRichContent());
         if (CollectionUtils.isNotEmpty(pics)) {
             entity.setPics(JSON.toJSONString(pics));

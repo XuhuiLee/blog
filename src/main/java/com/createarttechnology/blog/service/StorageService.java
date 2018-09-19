@@ -32,9 +32,9 @@ public class StorageService {
         return null;
     }
 
-    public List<ArticleEntity> getArticleEntityList() {
+    public List<ArticleEntity> getArticleEntityList(int tagId) {
         try {
-            return articleMapper.getArticleList();
+            return articleMapper.getArticleList(tagId);
         } catch (Exception e) {
             logger.error("articleMapper.getArticleList error, e:", e);
         }
