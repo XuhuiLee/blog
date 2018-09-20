@@ -62,7 +62,7 @@
                     </a>
                     <ul class="am-list am-collapse admin-sidebar-sub" id="collapse-nav-system">
                             <li>
-                                <a onclick="showSign(0)" class="am-cf">
+                                <a id="add_tag" onclick="showSign(0)" class="am-cf">
                                     <span class="am-icon-tag"></span>
                                     添加Tag
                                 </a>
