@@ -33,6 +33,9 @@ public class Checker {
             return resp.setMsg("parent id error");
         if (StringUtil.isEmpty(req.getName()))
             return resp.setMsg("name error");
+        if (req.getId() > 0 && req.getId() == req.getParentId()) {
+            return resp.setMsg("invalid parent id");
+        }
 
         return resp.setErrorInfo(ErrorInfo.SUCCESS);
     }

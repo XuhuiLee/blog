@@ -25,7 +25,7 @@ public interface TagMapper {
     @Options(useGeneratedKeys = true, keyColumn = "id", keyProperty = "tag.id")
     void saveTag(@Param("tag") TagEntity tag) throws Exception;
 
-    @Update("UPDATE tag SET parent_id = #{tag.parentId}, name = #{tag.name}")
+    @Update("UPDATE tag SET parent_id = #{tag.parentId}, name = #{tag.name} WHERE id = #{id}")
     void updateTag(@Param("id") int id, @Param("tag") TagEntity tag) throws Exception;
 
 }

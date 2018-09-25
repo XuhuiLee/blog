@@ -4,7 +4,7 @@
     <div class="am-offcanvas-bar admin-offcanvas-bar">
         <ul class="am-list admin-sidebar-list">
             <li class="admin-parent">
-                <a href="/blog/list?tagId=0" class="am-cf am-collapsed">
+                <a href="/blog/list/" class="am-cf am-collapsed">
                     <span class="am-icon-book"></span>
                     未分类
                 </a>
@@ -12,7 +12,7 @@
             #if($!{page.topTags})
                 #foreach($l1Tag in $!{page.topTags})
                     <li class="admin-parent">
-                        <a href="/blog/list?tagId=$!{l1Tag.id}" class="am-cf #if($!{tag_0.id} != $!{l1Tag.id}) am-collapsed #end">
+                        <a href="/blog/list/$!{l1Tag.id}" class="am-cf #if($!{tag_0.id} != $!{l1Tag.id}) am-collapsed #end">
                             <span class="am-icon-book"></span>
                             $!{l1Tag.name}
                             #if($!{l1Tag.subTags})
@@ -23,7 +23,7 @@
                             <ul class="am-list am-collapse admin-sidebar-sub #if($!{tag_0.id} == $!{l1Tag.id}) am-in #end" id="collapse-nav-$!{l1Tag.id}">
                                 #foreach($l2Tag in $!{l1Tag.subTags})
                                     <li>
-                                        <a href="/blog/list?tagId=$!{l2Tag.id}" class="am-cf #if($!{tag_1.id} != $!{l2Tag.id}) am-collapsed #end">
+                                        <a href="/blog/list/$!{l2Tag.id}" class="am-cf #if($!{tag_1.id} != $!{l2Tag.id}) am-collapsed #end">
                                             #if($!{l2Tag.subTags})
                                                 <span class="am-icon-bookmark"></span>
                                             #else
@@ -38,7 +38,7 @@
                                             <ul class="am-list am-collapse admin-sidebar-sub #if($!{tag_1.id} == $!{l2Tag.id}) am-in #end" id="collapse-nav-$!{l2Tag.id}">
                                             #foreach($l3Tag in $!{l2Tag.subTags})
                                                 <li>
-                                                    <a href="/blog/list?tagId=$!{l3Tag.id}" class="am-cf">
+                                                    <a href="/blog/list/$!{l3Tag.id}" class="am-cf">
                                                         <span class="am-icon-file-text"></span>
                                                         $!{l3Tag.name}
                                                     </a>

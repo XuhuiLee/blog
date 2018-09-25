@@ -5,6 +5,9 @@
                 <div class="am-fl am-cf">
                     <strong class="am-text-black am-text-lg">$!{article.title}</strong>
                 </div>
+                <a href="/blog/article/$!{article.id}/update" class="am-link-muted" id="edit_button">
+                    &nbsp;<span class="am-icon-pencil"></span>
+                </a>
                 <div class="am-fr am-cf">
                     <small class="am-text-gray">   $!{article.createTime}</small>
                 </div>
@@ -15,7 +18,7 @@
                         #foreach($tag in $!{article.tags})
                             <div class="am-btn-group am-btn-group-xs">
                                 <button type="button" class="am-btn am-btn-default">
-                                    <a href="/blog/list?tagId=$!{tag.id}"><span class="am-icon-bookmark"></span>  $!{tag.name}</a>
+                                    <a href="/blog/list/$!{tag.id}"><span class="am-icon-bookmark"></span>  $!{tag.name}</a>
                                 </button>
                             </div>
                         #end

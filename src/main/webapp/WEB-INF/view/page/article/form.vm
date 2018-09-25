@@ -64,7 +64,7 @@
         <div class="am-cf am-padding am-padding-bottom-0">
             <div class="am-form">
                 <div class="am-form-group am-form-group-lg">
-                    <input type="submit" onclick="submitArticle()" value="Submit" class="am-btn am-btn-secondary am-btn-lg am-center">
+                    <input type="submit" onclick="submitArticle($!{article.id})" value="Submit" class="am-btn am-btn-secondary am-btn-lg am-center">
                 </div>
             </div>
         </div>

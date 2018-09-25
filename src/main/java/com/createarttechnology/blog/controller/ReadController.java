@@ -11,7 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -28,8 +28,13 @@ public class ReadController {
     @Resource
     private ReadService readService;
 
-    @RequestMapping(value = {"/", "/list"})
-    public String list(@RequestParam(value = "tagId", required = false, defaultValue = "0") int tagId, HttpServletRequest request, Model model) {
+    @RequestMapping(value = {"", "/index", "/list"}, method = RequestMethod.GET)
+    public String index(HttpServletRequest request, Model model) {
+        return list(0, request, model);
+    }
+
+    @RequestMapping(value = "/list/{tagId}", method = RequestMethod.GET)
+    public String list(@PathVariable(value = "tagId") int tagId, HttpServletRequest request, Model model) {
         BaseTemplate tpl = new BaseTemplate(request);
         List<ListItem> itemList = readService.getListItemList(tagId);
         List<Integer> path = readService.getMenuIdList(tagId);
@@ -46,7 +51,7 @@ public class ReadController {
         return "page/list";
     }
 
-    @RequestMapping("/article/{id}")
+    @RequestMapping(value = "/article/{id}", method = RequestMethod.GET)
     public String article(@PathVariable(value = "id") long id, HttpServletRequest request, Model model) {
         BaseTemplate tpl = new BaseTemplate(request);
         Article article = readService.getArticle(id);
@@ -55,15 +60,15 @@ public class ReadController {
         return "page/article/article";
     }
 
-    @RequestMapping("/article/form")
+    @RequestMapping(value = "/article/form", method = RequestMethod.GET)
     public String articlePublish(HttpServletRequest request, Model model) {
         BaseTemplate tpl = new BaseTemplate(request);
         model.addAttribute("page", tpl);
         return "page/article/form";
     }
 
-    @RequestMapping("/article/update")
-    public String articleUpdate(@RequestParam(value = "id", required = false, defaultValue = "0") long id, HttpServletRequest request, Model model) {
+    @RequestMapping(value = "/article/{id}/update", method = RequestMethod.GET)
+    public String articleUpdate(@PathVariable(value = "id") long id, HttpServletRequest request, Model model) {
         BaseTemplate tpl = new BaseTemplate(request);
         Article article = readService.getArticle(id);
         model.addAttribute("article", article);
@@ -71,7 +76,7 @@ public class ReadController {
         return "page/article/form";
     }
 
-    @RequestMapping("/private-login")
+    @RequestMapping(value = "/private-login", method = RequestMethod.GET)
     public String privateLogin(HttpServletRequest request, Model model) {
         BaseTemplate tpl = new BaseTemplate(request);
         model.addAttribute("page", tpl);

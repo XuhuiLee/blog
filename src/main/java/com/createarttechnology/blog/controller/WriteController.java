@@ -5,6 +5,7 @@ import com.createarttechnology.blog.bean.request.SaveTagReq;
 import com.createarttechnology.blog.bean.response.BaseResp;
 import com.createarttechnology.blog.constants.ErrorInfo;
 import com.createarttechnology.blog.service.WriteService;
+import com.createarttechnology.blog.template.BaseTemplate;
 import com.createarttechnology.blog.util.Checker;
 import com.createarttechnology.jutil.log.Logger;
 import org.springframework.util.DigestUtils;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
@@ -26,9 +28,14 @@ public class WriteController {
     private WriteService writeService;
 
     @RequestMapping(value = "/article/{action}", method = RequestMethod.POST)
-    public BaseResp article(@PathVariable("action") String action, @RequestBody SaveArticleReq req) {
+    public BaseResp article(@PathVariable("action") String action, @RequestBody SaveArticleReq req, HttpServletRequest request) {
         logger.info("article, action={}, req={}", action, req);
         BaseResp resp = new BaseResp();
+
+        BaseTemplate tpl = new BaseTemplate(request);
+        if (!tpl.isAdmin()) {
+            return resp.setErrorInfo(ErrorInfo.NO_AUTH);
+        }
 
         boolean modify = false;
         switch (action) {
@@ -53,9 +60,14 @@ public class WriteController {
     }
 
     @RequestMapping(value = "/tag/{action}", method = RequestMethod.POST)
-    public BaseResp tag(@PathVariable("action") String action, @RequestBody SaveTagReq req) {
+    public BaseResp tag(@PathVariable("action") String action, @RequestBody SaveTagReq req, HttpServletRequest request) {
         logger.info("tag, action={}, req={}", action, req);
         BaseResp resp = new BaseResp();
+
+        BaseTemplate tpl = new BaseTemplate(request);
+        if (!tpl.isAdmin()) {
+            return resp.setErrorInfo(ErrorInfo.NO_AUTH);
+        }
 
         boolean modify = false;
         switch (action) {

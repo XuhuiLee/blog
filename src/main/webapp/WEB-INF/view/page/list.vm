@@ -1,32 +1,44 @@
 #define($content)
+<link rel="stylesheet" href="/sf/css/blog/page/list.css">
 <div class="admin-content-body">
     <div class="am-cf am-padding am-padding-bottom-0">
         <div class="am-fl am-cf">
             #if($!{tag_0})
                 <strong class="am-text-black am-text-lg">
-                    <a href="/blog/list?tagId=$!{tag_0.id}">
+                    <a href="/blog/list/$!{tag_0.id}">
                         <span class="am-icon-bookmark"></span>
                         $!{tag_0.name}
                     </a>
                 </strong>
-            #end
-            #if($!{tag_1})
-                <strong class="am-text-black am-text-lg">
-                    /
-                    <a href="/blog/list?tagId=$!{tag_1.id}">
-                        <span class="am-icon-bookmark"></span>
-                        $!{tag_1.name}
+                #if($!{tag_1})
+                    <strong class="am-text-black am-text-lg">
+                        /
+                        <a href="/blog/list/$!{tag_1.id}">
+                            <span class="am-icon-bookmark"></span>
+                            $!{tag_1.name}
+                        </a>
+                    </strong>
+                    #if($!{tag_2})
+                        <strong class="am-text-black am-text-lg">
+                            /
+                            <a href="/blog/list/$!{tag_2.id}">
+                                <span class="am-icon-bookmark"></span>
+                                $!{tag_2.name}
+                            </a>
+                            <a class="am-link-muted" id="edit_button" onclick="editTag($!{tag_2.id}, '$!{tag_2.name}', $!{tag_1.id}, '父级Tag：$!{tag_1.name}')">
+                                <span class="am-icon-pencil"></span>
+                            </a>
+                        </strong>
+                    #else
+                        <a class="am-link-muted" id="edit_button" onclick="editTag($!{tag_1.id}, '$!{tag_1.name}', $!{tag_0.id}, '父级Tag：$!{tag_0.name}')">
+                            <span class="am-icon-pencil"></span>
+                        </a>
+                    #end
+                #elseif($!{tag_0.id} > 0)
+                    <a class="am-link-muted" id="edit_button" onclick="editTag($!{tag_0.id}, '$!{tag_0.name}', 0, '父级Tag：无')">
+                        <span class="am-icon-pencil"></span>
                     </a>
-                </strong>
-            #end
-            #if($!{tag_2})
-                <strong class="am-text-black am-text-lg">
-                    /
-                    <a href="/blog/list?tagId=$!{tag_2.id}">
-                        <span class="am-icon-bookmark"></span>
-                        $!{tag_2.name}
-                    </a>
-                </strong>
+                #end
             #end
         </div>
     </div>
