@@ -7,6 +7,7 @@ import com.createarttechnology.blog.service.ReadService;
 import com.createarttechnology.blog.template.BaseTemplate;
 import com.createarttechnology.blog.util.CollectionUtil;
 import com.createarttechnology.jutil.log.Logger;
+import com.google.common.collect.Iterables;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,6 +26,8 @@ public class ReadController {
 
     private static final Logger logger = Logger.getLogger(ReadController.class);
 
+    private static final String PAGE_TITLE_SUFFIX = "_C.A.T";
+
     @Resource
     private ReadService readService;
 
@@ -37,14 +40,15 @@ public class ReadController {
     public String list(@PathVariable(value = "tagId") int tagId, HttpServletRequest request, Model model) {
         BaseTemplate tpl = new BaseTemplate(request);
         List<ListItem> itemList = readService.getListItemList(tagId);
-        List<Integer> path = readService.getMenuIdList(tagId);
-        List<Tag> path1 = readService.getPath(tagId);
-        if (CollectionUtil.isNotEmpty(path1)) {
+        List<Tag> path = readService.getPath(tagId);
+        if (CollectionUtil.isNotEmpty(path)) {
             for (int i = 0; i < path.size(); i++) {
-                model.addAttribute("tag_" + i, path1.get(i));
+                model.addAttribute("tag_" + i, path.get(i));
             }
+            tpl.setTitle(Iterables.getLast(path).getName() + "列表" + PAGE_TITLE_SUFFIX);
         } else {
             model.addAttribute("tag_0", new Tag().setName("未分类"));
+            tpl.setTitle("未分类列表" + PAGE_TITLE_SUFFIX);
         }
         model.addAttribute("list", itemList);
         model.addAttribute("page", tpl);
@@ -55,6 +59,9 @@ public class ReadController {
     public String article(@PathVariable(value = "id") long id, HttpServletRequest request, Model model) {
         BaseTemplate tpl = new BaseTemplate(request);
         Article article = readService.getArticle(id);
+        if (article != null) {
+            tpl.setTitle(article.getTitle() + PAGE_TITLE_SUFFIX);
+        }
         model.addAttribute("article", article);
         model.addAttribute("page", tpl);
         return "page/article/article";
@@ -63,6 +70,7 @@ public class ReadController {
     @RequestMapping(value = "/article/form", method = RequestMethod.GET)
     public String articlePublish(HttpServletRequest request, Model model) {
         BaseTemplate tpl = new BaseTemplate(request);
+        tpl.setTitle("发布文章" + PAGE_TITLE_SUFFIX);
         model.addAttribute("page", tpl);
         return "page/article/form";
     }
@@ -71,6 +79,9 @@ public class ReadController {
     public String articleUpdate(@PathVariable(value = "id") long id, HttpServletRequest request, Model model) {
         BaseTemplate tpl = new BaseTemplate(request);
         Article article = readService.getArticle(id);
+        if (article != null) {
+            tpl.setTitle(article.getTitle() + PAGE_TITLE_SUFFIX);
+        }
         model.addAttribute("article", article);
         model.addAttribute("page", tpl);
         return "page/article/form";
@@ -79,6 +90,7 @@ public class ReadController {
     @RequestMapping(value = "/private-login", method = RequestMethod.GET)
     public String privateLogin(HttpServletRequest request, Model model) {
         BaseTemplate tpl = new BaseTemplate(request);
+        tpl.setTitle("登录" + PAGE_TITLE_SUFFIX);
         model.addAttribute("page", tpl);
         return "page/login";
     }

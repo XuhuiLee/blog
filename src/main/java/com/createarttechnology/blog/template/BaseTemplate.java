@@ -13,6 +13,7 @@ import java.util.List;
 public class BaseTemplate {
     private HttpServletRequest request;
 
+    private String title = "CreateArtTechnology/blog";
     private boolean admin = false;
 
     public BaseTemplate(HttpServletRequest request) {
@@ -39,4 +40,11 @@ public class BaseTemplate {
         return TagService.getTopTagList();
     }
 
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
 }

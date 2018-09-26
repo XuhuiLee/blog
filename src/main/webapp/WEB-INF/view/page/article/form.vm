@@ -1,4 +1,6 @@
 #define($content)
+#set($tagIndex = ${article.tags.size()} - 1)
+#set($tag = $!{article.tags.get($tagIndex)})
 <link rel="stylesheet" href="/sf/editormd/css/editormd.min.css" />
 <script src="/sf/editormd/editormd.min.js"></script>
 
@@ -13,11 +15,19 @@
                 </h1>
                 <div class="am-btn-group">
                     <div id="tag_dropdown" class="am-dropdown" data-am-dropdown>
-                        <button id="tag" class="am-btn am-btn-gray am-dropdown-toggle am-btn-sm" data-am-dropdown-toggle value="0">
-                            <span class="am-icon-bookmark"></span>
-                            未分类
-                            <span class="am-icon-caret-down"></span>
-                        </button>
+                        #if($!{tag})
+                            <button id="tag" class="am-btn am-btn-gray am-dropdown-toggle am-btn-sm" data-am-dropdown-toggle value="$!{tag.id}">
+                                <span class="am-icon-bookmark"></span>
+                                $!{tag.name}
+                                <span class="am-icon-caret-down"></span>
+                            </button>
+                        #else
+                            <button id="tag" class="am-btn am-btn-gray am-dropdown-toggle am-btn-sm" data-am-dropdown-toggle value="0">
+                                <span class="am-icon-bookmark"></span>
+                                未分类
+                                <span class="am-icon-caret-down"></span>
+                            </button>
+                        #end
                         #if($!{page.topTags})
                             <ul class="am-dropdown-content">
                                 <li><a onclick="selectTag(0, '未分类')" class="am-text-xs"> 未分类 </a></li>
