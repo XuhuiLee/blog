@@ -12,6 +12,7 @@ public class Article {
     private List<Tag> tags;
     private String createTime;
     private String updateTime;
+    private String markdown;
 
     public long getId() {
         return id;
@@ -61,6 +62,14 @@ public class Article {
         this.updateTime = updateTime;
     }
 
+    public String getMarkdown() {
+        return markdown;
+    }
+
+    public void setMarkdown(String markdown) {
+        this.markdown = markdown;
+    }
+
     @Override
     public String toString() {
         return "Article{" +
@@ -70,6 +79,7 @@ public class Article {
                 ", tags=" + tags +
                 ", createTime='" + createTime + '\'' +
                 ", updateTime='" + updateTime + '\'' +
+                ", markdown='" + markdown + '\'' +
                 '}';
     }
 }

@@ -8,6 +8,7 @@ public class SaveArticleReq {
     private String title;
     private String content;
     private int tag;
+    private String markdown;
 
     public long getId() {
         return id;
@@ -41,6 +42,14 @@ public class SaveArticleReq {
         this.tag = tag;
     }
 
+    public String getMarkdown() {
+        return markdown;
+    }
+
+    public void setMarkdown(String markdown) {
+        this.markdown = markdown;
+    }
+
     @Override
     public String toString() {
         return "SaveArticleReq{" +
@@ -48,6 +57,7 @@ public class SaveArticleReq {
                 ", title='" + title + '\'' +
                 ", content='" + content + '\'' +
                 ", tag=" + tag +
+                ", markdown='" + markdown + '\'' +
                 '}';
     }
 }

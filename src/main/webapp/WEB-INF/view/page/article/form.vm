@@ -1,7 +1,6 @@
 #define($content)
-<script src="/sf/ueditor/ueditor.config.js"></script>
-<script src="/sf/ueditor/ueditor.all.js"></script>
-<script src="/sf/ueditor/zh-cn.js"></script>
+<link rel="stylesheet" href="/sf/editormd/css/editormd.min.css" />
+<script src="/sf/editormd/editormd.min.js"></script>
 
 <script src="/sf/js/blog/page/article/form.js"></script>
 
@@ -54,9 +53,9 @@
         <div class="am-cf am-padding am-padding-bottom-0">
             <div class="am-form">
                 <div class="am-form-group am-form-group-lg">
-                    <script id="editor_content" type="text/plain">
-                            $!{article.richContent}
-                        </script>
+                    <div id="editormd">
+                        <textarea style="display:none;">$!{article.markdown}</textarea>
+                    </div>
                 </div>
             </div>
         </div>

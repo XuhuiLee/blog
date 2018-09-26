@@ -28,6 +28,7 @@ public class Converter {
         output.setRichContent(input.getRichContent());
         output.setCreateTime(TimeUtil.getTimeStringInt(input.getCreateTime()));
         output.setUpdateTime(TimeUtil.getTimeStringInt(input.getUpdateTime()));
+        output.setMarkdown(input.getMarkdown());
 
         return output;
     }

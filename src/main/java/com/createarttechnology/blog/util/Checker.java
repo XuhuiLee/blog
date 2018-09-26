@@ -20,6 +20,8 @@ public class Checker {
             return resp.setMsg("title error");
         if (StringUtil.isEmpty(req.getContent()))
             return resp.setMsg("content error");
+        if (StringUtil.isEmpty(req.getMarkdown()))
+            return resp.setMsg("markdown error");
 
         return resp.setErrorInfo(ErrorInfo.SUCCESS);
     }

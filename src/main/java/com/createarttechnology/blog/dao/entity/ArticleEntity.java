@@ -12,6 +12,7 @@ public class ArticleEntity {
     private String pics;
     private int createTime;
     private int updateTime;
+    private String markdown;
 
     public long getId() {
         return id;
@@ -77,6 +78,14 @@ public class ArticleEntity {
         this.updateTime = updateTime;
     }
 
+    public String getMarkdown() {
+        return markdown;
+    }
+
+    public void setMarkdown(String markdown) {
+        this.markdown = markdown;
+    }
+
     @Override
     public String toString() {
         return "ArticleEntity{" +
@@ -88,6 +97,7 @@ public class ArticleEntity {
                 ", pics='" + pics + '\'' +
                 ", createTime=" + createTime +
                 ", updateTime=" + updateTime +
+                ", markdown='" + markdown + '\'' +
                 '}';
     }
 }
