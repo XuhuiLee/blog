@@ -61,6 +61,14 @@ public class ReadController {
         Article article = readService.getArticle(id);
         if (article != null) {
             tpl.setTitle(article.getTitle() + PAGE_TITLE_SUFFIX);
+            List<Tag> path = article.getTags();
+            if (CollectionUtil.isNotEmpty(path)) {
+                for (int i = 0; i < path.size(); i++) {
+                    model.addAttribute("tag_" + i, path.get(i));
+                }
+            } else {
+                model.addAttribute("tag_0", new Tag().setName("未分类"));
+            }
         }
         model.addAttribute("article", article);
         model.addAttribute("page", tpl);
