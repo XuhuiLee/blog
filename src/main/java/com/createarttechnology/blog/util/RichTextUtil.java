@@ -89,11 +89,7 @@ public class RichTextUtil {
         if (StringUtil.isEmpty(content)) {
             return "";
         }
-        content = content.replaceAll("<br.*>", "\n");
-        content = content.replaceAll("<[^>]*>", "");
-        content = content.replaceAll("\n+", "\n");
-        content = content.replaceAll("\n", "<br/>");
-        return content;
+        return content.replaceAll("<[^>]*>", "");
     }
 
 
