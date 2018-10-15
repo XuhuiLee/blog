@@ -25,19 +25,25 @@
                                 <span class="am-icon-bookmark"></span>
                                 $!{tag_2.name}
                             </a>
-                            <a class="am-link-muted" id="edit_button" onclick="editTag($!{tag_2.id}, '$!{tag_2.name}', $!{tag_1.id}, '父级Tag：$!{tag_1.name}')">
-                                <span class="am-icon-pencil"></span>
-                            </a>
+                            #if($!{page.admin})
+                                <a class="am-link-muted" id="edit_button" onclick="editTag($!{tag_2.id}, '$!{tag_2.name}', $!{tag_1.id}, '父级Tag：$!{tag_1.name}')">
+                                    <span class="am-icon-pencil"></span>
+                                </a>
+                            #end
                         </strong>
                     #else
-                        <a class="am-link-muted" id="edit_button" onclick="editTag($!{tag_1.id}, '$!{tag_1.name}', $!{tag_0.id}, '父级Tag：$!{tag_0.name}')">
+                        #if($!{page.admin})
+                            <a class="am-link-muted" id="edit_button" onclick="editTag($!{tag_1.id}, '$!{tag_1.name}', $!{tag_0.id}, '父级Tag：$!{tag_0.name}')">
+                                <span class="am-icon-pencil"></span>
+                            </a>
+                        #end
+                    #end
+                #elseif($!{tag_0.id} > 0)
+                    #if($!{page.admin})
+                        <a class="am-link-muted" id="edit_button" onclick="editTag($!{tag_0.id}, '$!{tag_0.name}', 0, '父级Tag：无')">
                             <span class="am-icon-pencil"></span>
                         </a>
                     #end
-                #elseif($!{tag_0.id} > 0)
-                    <a class="am-link-muted" id="edit_button" onclick="editTag($!{tag_0.id}, '$!{tag_0.name}', 0, '父级Tag：无')">
-                        <span class="am-icon-pencil"></span>
-                    </a>
                 #end
             #end
         </div>
@@ -48,16 +54,19 @@
             #if($!{list} && $!{list.size()} > 0)
                 #foreach($article in $!{list})
                     <li>
-                        <div class="am-cf am-padding">
-                            <a href="/blog/article/$!{article.id}">
-                                <div class="am-fl am-cf">
-                                    $!{article.title}
-                                </div>
-                                <div class="am-fr am-cf">
-                                    $!{article.createTime}
-                                </div>
-                            </a>
-                        </div>
+                        <a href="/blog/article/$!{article.id}">
+                            <div class="am-cf am-padding-sm">
+                                    <strong class="am-fl am-cf">
+                                        $!{article.title}
+                                    </strong>
+                                    <div class="am-fr am-cf">
+                                        $!{article.createTime}
+                                    </div>
+                            </div>
+                            <div class="am-cf am-padding-sm am-text-truncate">
+                                $!{article.simpleContent}
+                            </div>
+                        </a>
                     </li>
                 #end
             #end

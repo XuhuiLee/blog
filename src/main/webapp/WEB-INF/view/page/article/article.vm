@@ -5,9 +5,11 @@
                 <div class="am-fl am-cf">
                     <strong class="am-text-black am-text-lg">$!{article.title}</strong>
                 </div>
-                <a href="/blog/article/$!{article.id}/update" class="am-link-muted" id="edit_button">
-                    &nbsp;<span class="am-icon-pencil"></span>
-                </a>
+                #if($!{page.admin})
+                    <a href="/blog/article/$!{article.id}/update" class="am-link-muted" id="edit_button">
+                        &nbsp;<span class="am-icon-pencil"></span>
+                    </a>
+                #end
                 <div class="am-fr am-cf">
                     <small class="am-text-gray">   $!{article.createTime}</small>
                 </div>
@@ -28,7 +30,7 @@
             <hr/>
 
             <div class="am-g">
-                <div class="am-u-sm-12 am-u-sm-centered">
+                <div class="am-u-sm-12 am-u-sm-centered am-text-break">
                     $!{article.richContent}
                 </div>
             </div>
