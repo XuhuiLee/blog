@@ -6,7 +6,7 @@ import com.createarttechnology.blog.bean.response.Tag;
 import com.createarttechnology.blog.service.ReadService;
 import com.createarttechnology.blog.template.BaseTemplate;
 import com.createarttechnology.blog.util.CollectionUtil;
-import com.createarttechnology.jutil.log.Logger;
+import com.createarttechnology.logger.Logger;
 import com.google.common.collect.Iterables;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

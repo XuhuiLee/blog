@@ -4,7 +4,7 @@ import com.createarttechnology.blog.dao.entity.ArticleEntity;
 import com.createarttechnology.blog.dao.entity.TagEntity;
 import com.createarttechnology.blog.dao.mapper.ArticleMapper;
 import com.createarttechnology.blog.dao.mapper.TagMapper;
-import com.createarttechnology.jutil.log.Logger;
+import com.createarttechnology.logger.Logger;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;

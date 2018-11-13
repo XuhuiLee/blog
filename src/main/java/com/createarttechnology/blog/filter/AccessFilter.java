@@ -1,8 +1,8 @@
 package com.createarttechnology.blog.filter;
 
+import com.createarttechnology.logger.Logger;
 import com.createarttechnology.jutil.AntiBotUtil;
 import com.createarttechnology.jutil.StringUtil;
-import com.createarttechnology.jutil.log.Logger;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;

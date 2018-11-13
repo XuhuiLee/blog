@@ -6,7 +6,7 @@ import com.createarttechnology.blog.bean.response.Tag;
 import com.createarttechnology.blog.dao.entity.ArticleEntity;
 import com.createarttechnology.blog.util.CollectionUtil;
 import com.createarttechnology.blog.util.Converter;
-import com.createarttechnology.jutil.log.Logger;
+import com.createarttechnology.logger.Logger;
 import com.google.common.collect.Lists;
 import org.springframework.stereotype.Service;
 

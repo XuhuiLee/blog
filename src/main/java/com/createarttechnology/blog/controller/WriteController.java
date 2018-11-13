@@ -4,10 +4,11 @@ import com.createarttechnology.blog.bean.request.SaveArticleReq;
 import com.createarttechnology.blog.bean.request.SaveTagReq;
 import com.createarttechnology.blog.bean.response.BaseResp;
 import com.createarttechnology.blog.constants.ErrorInfo;
+import com.createarttechnology.blog.service.ConfigService;
 import com.createarttechnology.blog.service.WriteService;
 import com.createarttechnology.blog.template.BaseTemplate;
 import com.createarttechnology.blog.util.Checker;
-import com.createarttechnology.jutil.log.Logger;
+import com.createarttechnology.logger.Logger;
 import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,6 +27,8 @@ public class WriteController {
 
     @Resource
     private WriteService writeService;
+    @Resource
+    private ConfigService configService;
 
     @RequestMapping(value = "/article/{action}", method = RequestMethod.POST)
     public BaseResp article(@PathVariable("action") String action, @RequestBody SaveArticleReq req, HttpServletRequest request) {
@@ -97,8 +100,7 @@ public class WriteController {
         BaseResp resp = new BaseResp();
 
         logger.info("password={}, md5={}", password, DigestUtils.md5DigestAsHex("password".getBytes()));
-        // 后续admin的用户名和密码从配置中心读取，先用个假的
-        if ("root".equals(username) && DigestUtils.md5DigestAsHex("password".getBytes()).equalsIgnoreCase(password)) {
+        if (configService.getUsername().equals(username) && DigestUtils.md5DigestAsHex(configService.getPassword().getBytes()).equalsIgnoreCase(password)) {
             Cookie cookie = new Cookie("cat_blog_pass", "1");
             response.addCookie(cookie);
             return resp.setErrorInfo(ErrorInfo.SUCCESS);
