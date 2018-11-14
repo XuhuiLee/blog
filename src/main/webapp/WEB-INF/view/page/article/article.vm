@@ -1,5 +1,6 @@
 #define($content)
     #if($!{article})
+        <link rel="stylesheet" href="/sf/editormd/css/editormd.preview.css" />
         <div class="admin-content-body">
             <div class="am-cf am-padding am-padding-bottom-0">
                 <div class="am-fl am-cf">
@@ -28,12 +29,29 @@
                 </div>
             </div>
             <hr/>
-
-            <div class="am-g">
-                <div class="am-u-sm-12 am-u-sm-centered am-text-break">
-                    $!{article.richContent}
-                </div>
+            <div id="editormd-view">
+                <textarea style="display:none;">$!{article.markdown}</textarea>
             </div>
         </div>
+        <script src="/sf/editormd/editormd.js"></script>
+        <script src="/sf/editormd/lib/marked.min.js"></script>
+        <script src="/sf/editormd/lib/prettify.min.js"></script>
+        <script src="/sf/editormd/lib/raphael.min.js"></script>
+        <script src="/sf/editormd/lib/underscore.min.js"></script>
+        <script src="/sf/editormd/lib/sequence-diagram.min.js"></script>
+        <script src="/sf/editormd/lib/flowchart.min.js"></script>
+        <script src="/sf/editormd/lib/jquery.flowchart.min.js"></script>
+        <script type="text/javascript">
+            $(function() {
+                var testEditormdView = editormd.markdownToHTML("editormd-view", {
+                    htmlDecode      : "style,script,iframe",  // you can filter tags decode
+                    emoji           : true,
+                    taskList        : true,
+                    tex             : true,  // 默认不解析
+                    flowChart       : true,  // 默认不解析
+                    sequenceDiagram : true,  // 默认不解析
+                });
+            });
+        </script>
     #end
 #end
