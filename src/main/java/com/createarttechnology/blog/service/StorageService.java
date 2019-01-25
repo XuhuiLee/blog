@@ -23,6 +23,10 @@ public class StorageService {
     @Resource
     private TagMapper tagMapper;
 
+    /*
+    article
+     */
+
     public ArticleEntity getArticleEntity(long id) {
         try {
             return articleMapper.getArticle(id);
@@ -58,6 +62,19 @@ public class StorageService {
             logger.error("articleMapper.updateArticle error, id={}, article={}, e:", id, article, e);
         }
     }
+
+    public List<ArticleEntity> getRecentEditArticles(int length) {
+        try {
+            return articleMapper.getRecentEditArticleList(length);
+        } catch (Exception e) {
+            logger.error("articleMapper.getRecentEditArticleList error, length={}, e:", length, e);
+        }
+        return null;
+    }
+
+    /*
+    tag
+     */
 
     public List<TagEntity> getAllTagEntityList() {
         try {

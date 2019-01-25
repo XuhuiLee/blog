@@ -26,4 +26,7 @@ public interface ArticleMapper {
     @Update("UPDATE article SET title = #{article.title}, simple_content = #{article.simpleContent}, rich_content = #{article.richContent}, tag = #{article.tag}, pics = #{article.pics}, update_time = UNIX_TIMESTAMP(), markdown = #{article.markdown} WHERE id = #{id}")
     void updateArticle(@Param("id") long id, @Param("article") ArticleEntity article) throws Exception;
 
+    @Select("SELECT * FROM article ORDER BY update_time DESC LIMIT #{limit}")
+    List<ArticleEntity> getRecentEditArticleList(@Param("limit") int limit) throws Exception;
+
 }

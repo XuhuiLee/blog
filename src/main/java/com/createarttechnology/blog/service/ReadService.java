@@ -7,11 +7,16 @@ import com.createarttechnology.blog.dao.entity.ArticleEntity;
 import com.createarttechnology.blog.util.CollectionUtil;
 import com.createarttechnology.blog.util.Converter;
 import com.createarttechnology.logger.Logger;
+import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.CacheLoader;
+import com.google.common.cache.LoadingCache;
 import com.google.common.collect.Lists;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by lixuhui on 2018/9/14.
@@ -23,10 +28,25 @@ public class ReadService {
 
     private static final List<Tag> NO_TAG_LIST = Lists.newArrayList(new Tag().setName("未分类"));
 
+    private static LoadingCache<Integer, List<ListItem>> recentArticleCache = null;
+
     @Resource
     private StorageService storageService;
     @Resource
     private TagService tagService;
+
+    @PostConstruct
+    public void init() {
+        recentArticleCache = CacheBuilder.newBuilder()
+                .expireAfterWrite(5, TimeUnit.MINUTES)
+                .build(new CacheLoader<Integer, List<ListItem>>() {
+                    @Override
+                    public List<ListItem> load(Integer length) {
+                        List<ArticleEntity> entities = storageService.getRecentEditArticles(length);
+                        return Converter.articleEntityList2ListItemList(entities);
+                    }
+                });
+    }
 
     public Article getArticle(long id) {
         ArticleEntity entity = storageService.getArticleEntity(id);
@@ -41,13 +61,17 @@ public class ReadService {
     }
 
     public List<ListItem> getListItemList(int tagId) {
-        List<ArticleEntity> entity = storageService.getArticleEntityList(tagId);
-        return Converter.articleEntityList2ListItemList(entity);
+        List<ArticleEntity> entities = storageService.getArticleEntityList(tagId);
+        return Converter.articleEntityList2ListItemList(entities);
     }
 
     public List<Integer> getMenuIdList(int tagId) {
         List<Tag> path = tagService.getTagParentPath(tagId);
         return CollectionUtil.transformList(path, Tag::getId);
+    }
+
+    public static List<ListItem> getListItem(int length) {
+        return recentArticleCache == null ? null : recentArticleCache.getUnchecked(length);
     }
 
     public List<Tag> getPath(int tagId) {

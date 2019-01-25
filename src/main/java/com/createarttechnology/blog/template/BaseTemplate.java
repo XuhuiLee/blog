@@ -1,6 +1,8 @@
 package com.createarttechnology.blog.template;
 
+import com.createarttechnology.blog.bean.response.ListItem;
 import com.createarttechnology.blog.bean.response.Tag;
+import com.createarttechnology.blog.service.ReadService;
 import com.createarttechnology.blog.service.TagService;
 
 import javax.servlet.http.Cookie;
@@ -38,6 +40,10 @@ public class BaseTemplate {
 
     public List<Tag> getTopTags() {
         return TagService.getTopTagList();
+    }
+
+    public List<ListItem> getRecentEditArticles() {
+        return ReadService.getListItem(5);
     }
 
     public String getTitle() {
