@@ -75,7 +75,7 @@
 
         <div class="am-panel am-panel-default admin-sidebar-panel">
             <div class="am-panel-bd am-g">
-                <p><span class="am-icon-bookmark"></span> 最近更新</p>
+                <p><span class="am-icon-pencil"></span> 最近更新</p>
 
                 <ul class="am-list">
                     #if($!{page.recentEditArticles})
@@ -100,8 +100,8 @@
 
         <div class="am-panel am-panel-default admin-sidebar-panel">
             <div class="am-panel-bd">
-                <p><span class="am-icon-tag"></span> 你好世界！</p>
-                <p>本博客的终极目标：一站式资料平台，减少重复检索，避免采坑。 ——Lee</p>
+                <p><span class="am-icon-tag"></span> 分站宗旨</p>
+                <p>一站式资料平台，减少重复检索，避免采坑。 </p>
             </div>
         </div>
     </div>

@@ -60,7 +60,7 @@
                                         $!{article.title}
                                     </strong>
                                     <div class="am-fr am-cf">
-                                        $!{article.createTime}
+                                        <span class="am-icon-clock-o"></span> $!{article.createTime}
                                     </div>
                             </div>
                             <div class="am-cf am-padding-sm am-text-truncate">
