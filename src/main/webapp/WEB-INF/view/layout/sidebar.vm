@@ -6,7 +6,7 @@
             <li class="admin-parent">
                 <a href="/blog/list/" class="am-cf am-collapsed">
                     <span class="am-icon-book"></span>
-                    未分类
+                    最新文章
                 </a>
             </li>
             #if($!{page.topTags})
