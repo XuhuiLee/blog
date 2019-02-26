@@ -72,6 +72,15 @@ public class StorageService {
         return null;
     }
 
+    public List<ArticleEntity> getRecentCreateArticles(int length) {
+        try {
+            return articleMapper.getRecentCreateArticleList(length);
+        } catch (Exception e) {
+            logger.error("articleMapper.getRecentCreateArticleList error, length={}, e:", length, e);
+        }
+        return null;
+    }
+
     /*
     tag
      */

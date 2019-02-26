@@ -39,16 +39,21 @@ public class ReadController {
     @RequestMapping(value = "/list/{tagId}", method = RequestMethod.GET)
     public String list(@PathVariable(value = "tagId") int tagId, HttpServletRequest request, Model model) {
         BaseTemplate tpl = new BaseTemplate(request);
-        List<ListItem> itemList = readService.getListItemList(tagId);
+        List<ListItem> itemList;
+        if (tagId > 0) {
+            itemList = readService.getListItemList(tagId);
+        } else {
+            itemList = readService.getRecentCreateListItemList(10);
+        }
         List<Tag> path = readService.getPath(tagId);
         if (CollectionUtil.isNotEmpty(path)) {
             for (int i = 0; i < path.size(); i++) {
                 model.addAttribute("tag_" + i, path.get(i));
             }
-            tpl.setTitle(Iterables.getLast(path).getName() + "列表" + PAGE_TITLE_SUFFIX);
+            tpl.setTitle(Iterables.getLast(path).getName() + PAGE_TITLE_SUFFIX);
         } else {
-            model.addAttribute("tag_0", new Tag().setName("未分类"));
-            tpl.setTitle("未分类列表" + PAGE_TITLE_SUFFIX);
+            model.addAttribute("tag_0", new Tag().setName("最新文章"));
+            tpl.setTitle("最新文章" + PAGE_TITLE_SUFFIX);
         }
         model.addAttribute("list", itemList);
         model.addAttribute("page", tpl);

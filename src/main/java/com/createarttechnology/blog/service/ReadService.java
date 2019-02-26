@@ -65,6 +65,11 @@ public class ReadService {
         return Converter.articleEntityList2ListItemList(entities);
     }
 
+    public List<ListItem> getRecentCreateListItemList(int length) {
+        List<ArticleEntity> entities = storageService.getRecentCreateArticles(length);
+        return Converter.articleEntityList2ListItemList(entities);
+    }
+
     public List<Integer> getMenuIdList(int tagId) {
         List<Tag> path = tagService.getTagParentPath(tagId);
         return CollectionUtil.transformList(path, Tag::getId);

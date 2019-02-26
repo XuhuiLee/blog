@@ -29,4 +29,7 @@ public interface ArticleMapper {
     @Select("SELECT * FROM article ORDER BY update_time DESC LIMIT #{limit}")
     List<ArticleEntity> getRecentEditArticleList(@Param("limit") int limit) throws Exception;
 
+    @Select("SELECT * FROM article ORDER BY create_time DESC LIMIT #{limit}")
+    List<ArticleEntity> getRecentCreateArticleList(@Param("limit") int limit) throws Exception;
+
 }
