@@ -62,12 +62,16 @@ public class ReadService {
 
     public List<ListItem> getListItemList(int tagId) {
         List<ArticleEntity> entities = storageService.getArticleEntityList(tagId);
-        return Converter.articleEntityList2ListItemList(entities);
+        List<ListItem> result = Converter.articleEntityList2ListItemList(entities);
+        fillTags(result);
+        return result;
     }
 
     public List<ListItem> getRecentCreateListItemList(int length) {
         List<ArticleEntity> entities = storageService.getRecentCreateArticles(length);
-        return Converter.articleEntityList2ListItemList(entities);
+        List<ListItem> result = Converter.articleEntityList2ListItemList(entities);
+        fillTags(result);
+        return result;
     }
 
     public List<Integer> getMenuIdList(int tagId) {
@@ -81,5 +85,17 @@ public class ReadService {
 
     public List<Tag> getPath(int tagId) {
         return tagService.getTagParentPath(tagId);
+    }
+
+    private void fillTags(List<ListItem> input) {
+        if (CollectionUtil.isNotEmpty(input)) {
+            for (ListItem item : input) {
+                if (item.getTagId() == 0) {
+                    item.setTags(NO_TAG_LIST);
+                } else {
+                    item.setTags(tagService.getTagParentPath(item.getTagId()));
+                }
+            }
+        }
     }
 }

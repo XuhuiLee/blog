@@ -92,6 +92,31 @@ public class RichTextUtil {
         return content.replaceAll("<[^>]*>", "");
     }
 
+    private static final int MAX_LINES = 6;
 
+    public static String formatSimpleText(String content) {
+        if (StringUtil.isEmpty(content)) {
+            return "";
+        }
+        int length = content.length();
+        char[] data = new char[length];
+        content.getChars(0, length, data, 0);
+        StringBuilder stringBuilder = new StringBuilder(length + 10);
+        int count = 0;
+        for (int i = 0; i < length; i++) {
+            if (data[i] == '\n') {
+                count ++;
+                if (count == MAX_LINES) {
+                    stringBuilder.append("<br>......");
+                    break;
+                } else {
+                    stringBuilder.append("<br>");
+                }
+            } else {
+                stringBuilder.append(data[i]);
+            }
+        }
+        return stringBuilder.toString();
+    }
 
 }

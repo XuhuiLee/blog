@@ -12,6 +12,8 @@ public class ListItem {
     private List<String> pics;
     private String createTime;
     private String updateTime;
+    private int tagId;
+    private List<Tag> tags;
 
     public long getId() {
         return id;
@@ -61,6 +63,22 @@ public class ListItem {
         this.updateTime = updateTime;
     }
 
+    public int getTagId() {
+        return tagId;
+    }
+
+    public void setTagId(int tagId) {
+        this.tagId = tagId;
+    }
+
+    public List<Tag> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<Tag> tags) {
+        this.tags = tags;
+    }
+
     @Override
     public String toString() {
         return "ListItem{" +
@@ -70,6 +88,8 @@ public class ListItem {
                 ", pics=" + pics +
                 ", createTime='" + createTime + '\'' +
                 ", updateTime='" + updateTime + '\'' +
+                ", tagId=" + tagId +
+                ", tags=" + tags +
                 '}';
     }
 }

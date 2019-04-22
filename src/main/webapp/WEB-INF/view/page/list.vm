@@ -1,7 +1,7 @@
 #define($content)
 <link rel="stylesheet" href="/sf/css/blog/page/list.css">
 <div class="admin-content-body">
-    <div class="am-cf am-padding am-padding-bottom-0">
+    <div class="am-header-container am-cf am-padding am-padding-bottom-lg">
         <div class="am-fl am-cf">
             #if($!{tag_0})
                 <strong class="am-text-black am-text-lg">
@@ -48,25 +48,36 @@
             #end
         </div>
     </div>
-    <hr />
-    <div class="am-u-lg-12 am-u-md-11 am-u-sm-centered">
-        <ul class="am-list">
+    <div class="am-list-container am-u-lg-12 am-u-md-11 am-u-sm-centered am-padding-top-xs">
+        <ul class="am-list am-list-static am-list-border">
             #if($!{list} && $!{list.size()} > 0)
                 #foreach($article in $!{list})
-                    <li>
-                        <a href="/blog/article/$!{article.id}">
-                            <div class="am-cf am-padding-sm">
-                                    <strong class="am-fl am-cf">
-                                        $!{article.title}
-                                    </strong>
-                                    <div class="am-fr am-cf">
-                                        <span class="am-icon-clock-o"></span> $!{article.createTime}
-                                    </div>
+                    <li class="list-item am-cf am-margin-vertical-lg am-margin-horizontal-xs">
+                        <div class="list-title am-cf am-padding-left-sm am-padding-vertical-sm">
+                            <a href="/blog/article/$!{article.id}" class="am-link-muted">
+                                <strong class="am-fl am-cf am-text-xl">
+                                    $!{article.title}
+                                </strong>
+                            </a>
+                            <div class="am-fr am-cf am-text-cancel">
+                                <span class="am-icon-clock-o"></span> $!{article.createTime}
                             </div>
-                            <div class="am-cf am-padding-sm am-text-truncate">
-                                $!{article.simpleContent}
+                        </div>
+                        <hr>
+                        <div class="list-content am-cf am-padding-sm am-text-truncate">
+                            $!{article.simpleContent}
+                        </div>
+                        <hr>
+                        <div class="list-footer am-cf">
+                            <div class="list-footer-left am-cf am-fl">
+                                #foreach($tag in $!{article.tags})
+                                    <a href="/blog/list/$!{tag.id}" class="am-btn am-btn-sm am-btn-success am-radius"><span class="am-icon-tag"></span> $!{tag.name}</a>
+                                #end
                             </div>
-                        </a>
+                            <div class="list-footer-right am-cf am-fr am-padding-right-lg">
+                                <a href="/blog/article/$!{article.id}" class="am-btn am-btn-sm am-btn-secondary am-round"><strong>查看全文</strong></a>
+                            </div>
+                        </div>
                     </li>
                 #end
             #end

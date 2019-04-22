@@ -41,12 +41,13 @@ public class Converter {
         ListItem output = new ListItem();
         output.setId(input.getId());
         output.setTitle(input.getTitle());
-        output.setSimpleContent(input.getSimpleContent());
+        output.setSimpleContent(RichTextUtil.formatSimpleText(input.getSimpleContent()));
         if (StringUtil.isNotEmpty(input.getPics())) {
             output.setPics(JSON.parseArray(input.getPics(), String.class));
         }
         output.setCreateTime(TimeUtil.getTimeStringInt(input.getCreateTime()));
         output.setUpdateTime(TimeUtil.getTimeStringInt(input.getUpdateTime()));
+        output.setTagId(input.getTag());
 
         return output;
     }
