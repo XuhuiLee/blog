@@ -30,7 +30,7 @@ public class ReadController {
     private static final Logger logger = Logger.getLogger(ReadController.class);
 
     private static final String PAGE_TITLE_SUFFIX = " - C.A.T";
-    private static final int PAGE_SIZE = 2;
+    private static final int PAGE_SIZE = 5;
 
     @Resource
     private ReadService readService;
