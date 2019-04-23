@@ -14,7 +14,8 @@ import java.io.IOException;
  */
 public class AccessFilter implements Filter {
 
-    private static final Logger accessLog = Logger.getLogger("AccessLog");
+    private static final Logger accessLogger = Logger.getLogger("AccessLog");
+    private static final Logger errorLogger = Logger.getLogger("CoreFilter");
 
     public void init(FilterConfig filterConfig) throws ServletException {
 
@@ -34,12 +35,16 @@ public class AccessFilter implements Filter {
 
         boolean isBot = AntiBotUtil.isBot(req);
 
-        chain.doFilter(request, response);
-
+        try {
+            chain.doFilter(request, response);
+        } catch (Exception e) {
+            errorLogger.error("error, e:", e);
+            resp.setStatus(500);
+        }
         int retCode = resp.getStatus();
         if (!(uri.endsWith(".css") || uri.endsWith(".js") || uri.endsWith(".jpg") || uri.endsWith(".png")
                 || uri.startsWith("/assets") || uri.startsWith("/static"))) {
-            accessLog.info("{}\t{}\t{}\t{}\t{}\tua:{}",
+            accessLogger.info("{}\t{}\t{}\t{}\t{}\tua:{}",
                     isBot ? 1 : 0,
                     retCode,
                     uri,

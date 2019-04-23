@@ -30,6 +30,9 @@ public class WriteController {
     @Resource
     private ConfigService configService;
 
+    /**
+     * 保存或修改文章
+     */
     @RequestMapping(value = "/article/{action}", method = RequestMethod.POST)
     public BaseResp article(@PathVariable("action") String action, @RequestBody SaveArticleReq req, HttpServletRequest request) {
         logger.info("article, action={}, req={}", action, req);
@@ -62,6 +65,9 @@ public class WriteController {
         return writeService.saveArticle(req, modify);
     }
 
+    /**
+     * 保存或修改tag
+     */
     @RequestMapping(value = "/tag/{action}", method = RequestMethod.POST)
     public BaseResp tag(@PathVariable("action") String action, @RequestBody SaveTagReq req, HttpServletRequest request) {
         logger.info("tag, action={}, req={}", action, req);
@@ -94,6 +100,9 @@ public class WriteController {
         return writeService.saveTag(req, modify);
     }
 
+    /**
+     * 登录
+     */
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public BaseResp login(@RequestParam("username") String username, @RequestParam("password") String password, HttpServletResponse response) {
         logger.info("login, username={}, password={}", username, password);
@@ -108,6 +117,9 @@ public class WriteController {
         return resp.setErrorInfo(ErrorInfo.NO_AUTH);
     }
 
+    /**
+     * 登出
+     */
     @RequestMapping(value = "/logout", method = RequestMethod.POST)
     public BaseResp logout(HttpServletResponse response) {
         BaseResp resp = new BaseResp();

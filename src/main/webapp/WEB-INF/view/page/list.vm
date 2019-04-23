@@ -48,7 +48,7 @@
             #end
         </div>
     </div>
-    <div class="am-list-container am-u-lg-12 am-u-md-11 am-u-sm-centered am-padding-top-xs">
+    <div class="am-list-container am-u-lg-12 am-u-md-11 am-u-sm-centered am-padding-vertical-xs">
         <ul class="am-list am-list-static am-list-border">
             #if($!{list} && $!{list.size()} > 0)
                 #foreach($article in $!{list})
@@ -80,8 +80,26 @@
                         </div>
                     </li>
                 #end
+            #else
+                <li class="list-item am-cf am-margin-vertical-lg am-margin-horizontal-xs">
+                    <div class="list-title am-cf am-padding-left-sm am-padding-vertical-sm">
+                        <a href="#" class="am-link-muted">
+                            <strong class="am-fl am-cf am-text-xl">
+                                Oops! 这个标签下还没有文章......
+                            </strong>
+                        </a>
+                    </div>
+                </li>
             #end
         </ul>
+        #if($!{data})
+            <table class="am-margin-bottom-sm">
+                <tbody><tr><td id="pager"></td></tr></tbody>
+            </table>
+        #end
     </div>
+    <div id="pageNo" hidden>$!{data.pageNo}</div>
+    <div id="totalPage" hidden>$!{data.totalPage}</div>
 </div>
+<script src="/sf/js/blog/page/list.js"></script>
 #end

@@ -1,5 +1,6 @@
 package com.createarttechnology.blog.service;
 
+import com.createarttechnology.blog.bean.Pager;
 import com.createarttechnology.blog.dao.entity.ArticleEntity;
 import com.createarttechnology.blog.dao.entity.TagEntity;
 import com.createarttechnology.blog.dao.mapper.ArticleMapper;
@@ -8,6 +9,7 @@ import com.createarttechnology.logger.Logger;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -36,11 +38,20 @@ public class StorageService {
         return null;
     }
 
-    public List<ArticleEntity> getArticleEntityList(int tagId) {
+    public List<ArticleEntity> getArticleEntityListByTagId(int tagId) {
         try {
-            return articleMapper.getArticleList(tagId);
+            return articleMapper.getArticleListByTagId(tagId);
         } catch (Exception e) {
-            logger.error("articleMapper.getArticleList error, e:", e);
+            logger.error("articleMapper.getArticleListByTagId error, tagId={}, e:", tagId, e);
+        }
+        return null;
+    }
+
+    public List<ArticleEntity> getArticleListByParentTagId(Collection<Integer> tagIds) {
+        try {
+            return articleMapper.getArticleListByParentTagId(tagIds);
+        } catch (Exception e) {
+            logger.error("articleMapper.getArticleListByParentTagId error, tagIds={}, e:", tagIds, e);
         }
         return null;
     }
@@ -72,13 +83,22 @@ public class StorageService {
         return null;
     }
 
-    public List<ArticleEntity> getRecentCreateArticles(int length) {
+    public List<ArticleEntity> getRecentCreateArticles(Pager pager) {
         try {
-            return articleMapper.getRecentCreateArticleList(length);
+            return articleMapper.getRecentCreateArticleList(pager);
         } catch (Exception e) {
-            logger.error("articleMapper.getRecentCreateArticleList error, length={}, e:", length, e);
+            logger.error("articleMapper.getRecentCreateArticleList error, pager={}, e:", pager, e);
         }
         return null;
+    }
+
+    public int getArticleCount() {
+        try {
+            return articleMapper.getArticleCount();
+        } catch (Exception e) {
+            logger.error("articleMapper.getArticleCount error, e:", e);
+        }
+        return 0;
     }
 
     /*

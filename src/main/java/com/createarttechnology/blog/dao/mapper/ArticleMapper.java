@@ -1,9 +1,11 @@
 package com.createarttechnology.blog.dao.mapper;
 
+import com.createarttechnology.blog.bean.Pager;
 import com.createarttechnology.blog.dao.entity.ArticleEntity;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -16,7 +18,9 @@ public interface ArticleMapper {
     ArticleEntity getArticle(@Param("id") long id) throws Exception;
 
     @Select("SELECT * FROM article WHERE tag = #{tag} ORDER BY create_time")
-    List<ArticleEntity> getArticleList(@Param("tag") int tagId) throws Exception;
+    List<ArticleEntity> getArticleListByTagId(@Param("tag") int tagId) throws Exception;
+
+    List<ArticleEntity> getArticleListByParentTagId(@Param("collection") Collection<Integer> tagIds) throws Exception;
 
     @Insert("INSERT INTO article(title, simple_content, rich_content, tag, pics, create_time, update_time, markdown) VALUES " +
             "(#{article.title}, #{article.simpleContent}, #{article.richContent}, #{article.tag}, #{article.pics}, UNIX_TIMESTAMP(), UNIX_TIMESTAMP(), #{article.markdown})")
@@ -29,7 +33,9 @@ public interface ArticleMapper {
     @Select("SELECT * FROM article ORDER BY update_time DESC LIMIT #{limit}")
     List<ArticleEntity> getRecentEditArticleList(@Param("limit") int limit) throws Exception;
 
-    @Select("SELECT * FROM article ORDER BY create_time DESC LIMIT #{limit}")
-    List<ArticleEntity> getRecentCreateArticleList(@Param("limit") int limit) throws Exception;
+    @Select("SELECT * FROM article ORDER BY create_time DESC LIMIT #{pager.start}, #{pager.limit}")
+    List<ArticleEntity> getRecentCreateArticleList(@Param("pager") Pager pager) throws Exception;
 
+    @Select("SELECT COUNT(*) FROM article")
+    int getArticleCount() throws Exception;
 }

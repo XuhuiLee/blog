@@ -1,21 +1,24 @@
 package com.createarttechnology.blog.service;
 
+import com.createarttechnology.blog.bean.Pager;
 import com.createarttechnology.blog.bean.response.Article;
 import com.createarttechnology.blog.bean.response.ListItem;
+import com.createarttechnology.blog.bean.response.ListItemList;
 import com.createarttechnology.blog.bean.response.Tag;
 import com.createarttechnology.blog.dao.entity.ArticleEntity;
-import com.createarttechnology.blog.util.CollectionUtil;
 import com.createarttechnology.blog.util.Converter;
 import com.createarttechnology.logger.Logger;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.collect.Lists;
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -26,7 +29,7 @@ public class ReadService {
 
     private static final Logger logger = Logger.getLogger(ReadService.class);
 
-    private static final List<Tag> NO_TAG_LIST = Lists.newArrayList(new Tag().setName("未分类"));
+    private static final List<Tag> NO_TAG_LIST = Lists.newArrayList(new Tag().setName("未分类笔记"));
 
     private static LoadingCache<Integer, List<ListItem>> recentArticleCache = null;
 
@@ -35,6 +38,9 @@ public class ReadService {
     @Resource
     private TagService tagService;
 
+    /**
+     * 缓存最近编辑列表
+     */
     @PostConstruct
     public void init() {
         recentArticleCache = CacheBuilder.newBuilder()
@@ -48,52 +54,69 @@ public class ReadService {
                 });
     }
 
+    /**
+     * 文章详情
+     */
     public Article getArticle(long id) {
         ArticleEntity entity = storageService.getArticleEntity(id);
         Article article = Converter.articleEntity2Article(entity);
-        if (entity.getTag() > 0) {
-            List<Tag> tags = tagService.getTagParentPath(entity.getTag());
-            article.setTags(tags);
-        } else {
-            article.setTags(NO_TAG_LIST);
+        if (article != null) {
+            if (entity.getTag() > 0) {
+                List<Tag> tags = tagService.getParentTagPath(entity.getTag());
+                article.setTags(tags);
+            } else {
+                article.setTags(NO_TAG_LIST);
+            }
         }
         return article;
     }
 
+    /**
+     * 普通列表页，不翻页
+     */
     public List<ListItem> getListItemList(int tagId) {
-        List<ArticleEntity> entities = storageService.getArticleEntityList(tagId);
+        Set<Integer> tagIdPath = tagService.getChildTagIdPath(tagId);
+        if (CollectionUtils.isEmpty(tagIdPath)) {
+            return null;
+        }
+        List<ArticleEntity> entities = storageService.getArticleListByParentTagId(tagIdPath);
         List<ListItem> result = Converter.articleEntityList2ListItemList(entities);
         fillTags(result);
         return result;
     }
 
-    public List<ListItem> getRecentCreateListItemList(int length) {
-        List<ArticleEntity> entities = storageService.getRecentCreateArticles(length);
+    /**
+     * 首页列表，翻页
+     */
+    public ListItemList getRecentCreateListItemList(Pager pager) {
+        int count = storageService.getArticleCount();
+        List<ArticleEntity> entities = storageService.getRecentCreateArticles(pager);
         List<ListItem> result = Converter.articleEntityList2ListItemList(entities);
         fillTags(result);
-        return result;
+        return new ListItemList(pager, count, result);
     }
 
-    public List<Integer> getMenuIdList(int tagId) {
-        List<Tag> path = tagService.getTagParentPath(tagId);
-        return CollectionUtil.transformList(path, Tag::getId);
-    }
-
+    /**
+     * 最新编辑列表
+     */
     public static List<ListItem> getListItem(int length) {
         return recentArticleCache == null ? null : recentArticleCache.getUnchecked(length);
     }
 
+    /**
+     * 面包屑导航
+     */
     public List<Tag> getPath(int tagId) {
-        return tagService.getTagParentPath(tagId);
+        return tagService.getParentTagPath(tagId);
     }
 
     private void fillTags(List<ListItem> input) {
-        if (CollectionUtil.isNotEmpty(input)) {
+        if (CollectionUtils.isNotEmpty(input)) {
             for (ListItem item : input) {
                 if (item.getTagId() == 0) {
                     item.setTags(NO_TAG_LIST);
                 } else {
-                    item.setTags(tagService.getTagParentPath(item.getTagId()));
+                    item.setTags(tagService.getParentTagPath(item.getTagId()));
                 }
             }
         }

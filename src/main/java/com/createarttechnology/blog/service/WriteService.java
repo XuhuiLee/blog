@@ -70,7 +70,7 @@ public class WriteService {
             storageService.updateTagEntity(req.getId(), entity);
             resp.setErrorInfo(ErrorInfo.SUCCESS).setData(req.getId());
         }
-        tagService.buildTagTree();
+        tagService.reloadTagCache();
         return resp;
     }
 

@@ -7,16 +7,18 @@ import com.createarttechnology.blog.bean.response.Tag;
 import com.createarttechnology.blog.dao.entity.ArticleEntity;
 import com.createarttechnology.blog.dao.entity.TagEntity;
 import com.createarttechnology.jutil.StringUtil;
-import com.google.common.collect.Lists;
-import org.apache.commons.collections.CollectionUtils;
 
 import java.util.List;
+import java.util.function.Function;
 
 /**
  * Created by lixuhui on 2018/9/14.
  */
 public class Converter {
 
+    /**
+     * ArticleEntity - Article
+     */
     public static Article articleEntity2Article(ArticleEntity input) {
         if (input == null) {
             return null;
@@ -33,6 +35,9 @@ public class Converter {
         return output;
     }
 
+    /**
+     * ArticleEntity - ListItem
+     */
     public static ListItem articleEntity2ListItem(ArticleEntity input) {
         if (input == null) {
             return null;
@@ -52,22 +57,21 @@ public class Converter {
         return output;
     }
 
+    /**
+     * ArticleEntity List - ListItem List
+     */
     public static List<ListItem> articleEntityList2ListItemList(List<ArticleEntity> input) {
-        if (CollectionUtils.isEmpty(input)) {
-            return null;
-        }
-
-        List<ListItem> output = Lists.newArrayListWithCapacity(input.size());
-        for (ArticleEntity in : input) {
-            ListItem out = articleEntity2ListItem(in);
-            if (out != null) {
-                output.add(out);
+        return CollectionUtil.transformList(input, new Function<ArticleEntity, ListItem>() {
+            @Override
+            public ListItem apply(ArticleEntity articleEntity) {
+                return articleEntity2ListItem(articleEntity);
             }
-        }
-
-        return output;
+        });
     }
 
+    /**
+     * TagEntity - Tag
+     */
     public static Tag tagEntity2Tag(TagEntity input) {
         if (input == null) {
             return null;
@@ -81,20 +85,16 @@ public class Converter {
         return tag;
     }
 
+    /**
+     * TagEntity List - Tag List
+     */
     public static List<Tag> tagEntityList2TagList(List<TagEntity> input) {
-        if (CollectionUtils.isEmpty(input)) {
-            return null;
-        }
-
-        List<Tag> output = Lists.newArrayListWithCapacity(input.size());
-        for (TagEntity in : input) {
-            Tag out = tagEntity2Tag(in);
-            if (out != null) {
-                output.add(out);
+        return CollectionUtil.transformList(input, new Function<TagEntity, Tag>() {
+            @Override
+            public Tag apply(TagEntity tagEntity) {
+                return tagEntity2Tag(tagEntity);
             }
-        }
-
-        return output;
+        });
     }
 
 }
