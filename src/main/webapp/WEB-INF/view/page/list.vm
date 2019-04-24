@@ -64,17 +64,19 @@
                             </div>
                         </div>
                         <hr>
-                        <div class="list-content am-cf am-padding-sm">
-                            <div class="list-content-pic am-cf am-fl am-text-truncate">
-                                $!{article.simpleContent}
-                            </div>
-                            #if($!{article.pics})
-                                <div class="list-content-pic am-cf am-fr">
-                                        <img src="$!{article.pics.get(0)}" height="170px" class="list-content-pic-content am-img-thumbnail"/>
-                                </div>
-                            #end
+                        <div class="list-content am-cf am-padding-sm am-text-truncate">
+                            $!{article.simpleContent}
                         </div>
                         <hr>
+                        #if($!{article.pics})
+                            <div class="list-pic am-cf am-padding-left-sm">
+                                <img src="$!{article.pics.get(0)}" class="list-content-pic-content am-img-thumbnail"/>
+                                #if($!{article.pics.size()} > 1)
+                                    <img src="$!{article.pics.get(1)}" class="list-content-pic-content am-img-thumbnail"/>
+                                #end
+                            </div>
+                            <hr>
+                        #end
                         <div class="list-footer am-cf">
                             <div class="list-footer-left am-cf am-fl">
                                 #foreach($tag in $!{article.tags})
