@@ -103,7 +103,12 @@ public class RichTextUtil {
         content.getChars(0, length, data, 0);
         StringBuilder stringBuilder = new StringBuilder(length + 10);
         int count = 0;
+        // 合并多个\n
+        boolean lastIsEnter = false;
         for (int i = 0; i < length; i++) {
+            if (lastIsEnter && data[i] == '\n') {
+                continue;
+            }
             if (data[i] == '\n') {
                 count ++;
                 if (count == MAX_LINES) {
@@ -112,8 +117,10 @@ public class RichTextUtil {
                 } else {
                     stringBuilder.append("<br>");
                 }
+                lastIsEnter = true;
             } else {
                 stringBuilder.append(data[i]);
+                lastIsEnter = false;
             }
         }
         return stringBuilder.toString();

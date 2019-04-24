@@ -70,9 +70,14 @@
                         <hr>
                         #if($!{article.pics})
                             <div class="list-pic am-cf am-padding-left-sm">
-                                <img src="$!{article.pics.get(0)}" class="list-content-pic-content am-img-thumbnail"/>
+                                <img src="$!{article.pics.get(0)}" class="list-pic-content am-img-thumbnail am-fl"/>
                                 #if($!{article.pics.size()} > 1)
-                                    <img src="$!{article.pics.get(1)}" class="list-content-pic-content am-img-thumbnail"/>
+                                    <div class="list-pic-append am-fl am-margin-left-sm">
+                                        <img src="$!{article.pics.get(1)}" class="list-pic-content am-img-thumbnail"/>
+                                        #if($!{article.pics.size()} > 2)
+                                            <span class="list-pic-num">共$!{article.pics.size()}张</span>
+                                        #end
+                                    </div>
                                 #end
                             </div>
                             <hr>
