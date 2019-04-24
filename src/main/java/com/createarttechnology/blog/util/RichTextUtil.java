@@ -104,7 +104,7 @@ public class RichTextUtil {
         StringBuilder stringBuilder = new StringBuilder(length + 10);
         int count = 0;
         // 合并多个\n
-        boolean lastIsEnter = false;
+        boolean lastIsEnter = true;
         for (int i = 0; i < length; i++) {
             if (lastIsEnter && data[i] == '\n') {
                 continue;
