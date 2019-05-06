@@ -10,6 +10,6 @@
         <foreach collection="collection" item="item" open="(" separator="," close=")">
             #{item}
         </foreach>
-        DESC
+        ORDER BY id DESC
     </select>
 </mapper>
