@@ -20,7 +20,7 @@
 
     <filter>
         <filter-name>AccessFilter</filter-name>
-        <filter-class>com.createarttechnology.blog.filter.AccessFilter</filter-class>
+        <filter-class>com.createarttechnology.common.filter.AccessFilter</filter-class>
     </filter>
     <filter-mapping>
         <filter-name>AccessFilter</filter-name>

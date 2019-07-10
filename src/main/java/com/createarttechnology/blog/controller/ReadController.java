@@ -43,7 +43,6 @@ public class ReadController {
         BaseTemplate tpl = new BaseTemplate(request);
         Pager pager = new Pager(page, PAGE_SIZE);
         ListItemList data = readService.getRecentCreateListItemList(pager);
-        model.addAttribute("tag_0", new Tag().setName("最新文章"));
         tpl.setTitle("最新文章" + PAGE_TITLE_SUFFIX);
         model.addAttribute("list", data.getList());
         model.addAttribute("data", data);
@@ -64,9 +63,7 @@ public class ReadController {
         if (CollectionUtils.isEmpty(path)) {
             return "redirect:/";
         }
-        for (int i = 0; i < path.size(); i++) {
-            model.addAttribute("tag_" + i, path.get(i));
-        }
+        tpl.setCurrentTagPath(path);
         tpl.setTitle(Iterables.getLast(path).getName() + PAGE_TITLE_SUFFIX);
         List<ListItem> itemList = readService.getListItemList(tagId);
         model.addAttribute("list", itemList);
@@ -83,14 +80,7 @@ public class ReadController {
         Article article = readService.getArticle(id);
         if (article != null) {
             tpl.setTitle(article.getTitle() + PAGE_TITLE_SUFFIX);
-            List<Tag> path = article.getTags();
-            if (CollectionUtils.isNotEmpty(path)) {
-                for (int i = 0; i < path.size(); i++) {
-                    model.addAttribute("tag_" + i, path.get(i));
-                }
-            } else {
-                model.addAttribute("tag_0", new Tag().setName("未分类"));
-            }
+            tpl.setCurrentTagPath(article.getTags());
         }
         model.addAttribute("article", article);
         model.addAttribute("page", tpl);
@@ -116,7 +106,7 @@ public class ReadController {
         BaseTemplate tpl = new BaseTemplate(request);
         Article article = readService.getArticle(id);
         if (article != null) {
-            tpl.setTitle(article.getTitle() + PAGE_TITLE_SUFFIX);
+            tpl.setTitle("更新文章 " + article.getTitle() + PAGE_TITLE_SUFFIX);
         }
         model.addAttribute("article", article);
         model.addAttribute("page", tpl);
@@ -133,7 +123,5 @@ public class ReadController {
         model.addAttribute("page", tpl);
         return "page/login";
     }
-
-
 
 }

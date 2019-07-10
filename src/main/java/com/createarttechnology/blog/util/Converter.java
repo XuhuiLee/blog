@@ -6,6 +6,7 @@ import com.createarttechnology.blog.bean.response.ListItem;
 import com.createarttechnology.blog.bean.response.Tag;
 import com.createarttechnology.blog.dao.entity.ArticleEntity;
 import com.createarttechnology.blog.dao.entity.TagEntity;
+import com.createarttechnology.jutil.CollectionUtil;
 import com.createarttechnology.jutil.StringUtil;
 
 import java.util.List;

@@ -17,6 +17,7 @@ public class BaseTemplate {
 
     private String title = "CreateArtTechnology/blog";
     private boolean admin = false;
+    private List<Tag> currentTagPath;
 
     public BaseTemplate(HttpServletRequest request) {
         this.request = request;
@@ -42,6 +43,10 @@ public class BaseTemplate {
         return TagService.getTopTagList();
     }
 
+    public Tag getTag(int tagId) {
+        return TagService.getTag(tagId);
+    }
+
     public List<ListItem> getRecentEditArticles() {
         return ReadService.getListItem(5);
     }
@@ -52,5 +57,14 @@ public class BaseTemplate {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public List<Tag> getCurrentTagPath() {
+        return currentTagPath;
+    }
+
+    public void setCurrentTagPath(List<Tag> currentTagPath) {
+        System.out.println(currentTagPath);
+        this.currentTagPath = currentTagPath;
     }
 }

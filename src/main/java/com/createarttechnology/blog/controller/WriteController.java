@@ -2,12 +2,12 @@ package com.createarttechnology.blog.controller;
 
 import com.createarttechnology.blog.bean.request.SaveArticleReq;
 import com.createarttechnology.blog.bean.request.SaveTagReq;
-import com.createarttechnology.blog.bean.response.BaseResp;
-import com.createarttechnology.blog.constants.ErrorInfo;
 import com.createarttechnology.blog.service.ConfigService;
 import com.createarttechnology.blog.service.WriteService;
 import com.createarttechnology.blog.template.BaseTemplate;
 import com.createarttechnology.blog.util.Checker;
+import com.createarttechnology.common.BaseResp;
+import com.createarttechnology.common.ErrorInfo;
 import com.createarttechnology.logger.Logger;
 import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.*;
@@ -52,13 +52,7 @@ public class WriteController {
             default:
                 return resp.setErrorInfo(ErrorInfo.INVALID_PARAMS);
         }
-        if (modify && req.getId() <= 0) {
-            return resp.setErrorInfo(ErrorInfo.INVALID_PARAMS);
-        }
-        if (!modify && req.getId() > 0) {
-            return resp.setErrorInfo(ErrorInfo.INVALID_PARAMS);
-        }
-        resp = Checker.checkSaveArticleReq(req);
+        resp = Checker.checkSaveArticleReq(req, modify);
         if (!resp.success()) {
             return resp;
         }
@@ -87,13 +81,7 @@ public class WriteController {
             default:
                 return resp.setErrorInfo(ErrorInfo.INVALID_PARAMS);
         }
-        if (modify && req.getId() <= 0) {
-            return resp.setErrorInfo(ErrorInfo.INVALID_PARAMS);
-        }
-        if (!modify && req.getId() > 0) {
-            return resp.setErrorInfo(ErrorInfo.INVALID_PARAMS);
-        }
-        resp = Checker.checkSaveTagReq(req);
+        resp = Checker.checkSaveTagReq(req, modify);
         if (!resp.success()) {
             return resp;
         }
@@ -110,6 +98,7 @@ public class WriteController {
 
         logger.info("password={}, md5={}", password, DigestUtils.md5DigestAsHex("password".getBytes()));
         if (configService.getUsername().equals(username) && DigestUtils.md5DigestAsHex(configService.getPassword().getBytes()).equalsIgnoreCase(password)) {
+            // TODO 这里需要修改
             Cookie cookie = new Cookie("cat_blog_pass", "1");
             response.addCookie(cookie);
             return resp.setErrorInfo(ErrorInfo.SUCCESS);
@@ -124,6 +113,7 @@ public class WriteController {
     public BaseResp logout(HttpServletResponse response) {
         BaseResp resp = new BaseResp();
 
+        // TODO 这里需要修改
         Cookie cookie = new Cookie("cat_blog_pass", "1");
         cookie.setMaxAge(0);
         response.addCookie(cookie);

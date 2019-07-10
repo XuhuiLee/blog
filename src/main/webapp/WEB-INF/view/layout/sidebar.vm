@@ -9,50 +9,55 @@
                     最新文章
                 </a>
             </li>
+            #set($tagSize = $!{page.currentTagPath.size()})
+            #if($tagSize > 0) #set($tag_0 = $!{page.currentTagPath.get(0)}) #end
+            #if($tagSize > 1) #set($tag_1 = $!{page.currentTagPath.get(1)}) #end
+            #if($tagSize > 2) #set($tag_2 = $!{page.currentTagPath.get(2)}) #end
+
             #if($!{page.topTags})
                 #foreach($l1Tag in $!{page.topTags})
-                    <li class="admin-parent">
+                        <li class="admin-parent">
                         <a href="/blog/list/$!{l1Tag.id}" class="am-cf #if($!{tag_0.id} != $!{l1Tag.id}) am-collapsed #end">
-                            <span class="am-icon-book"></span>
-                            $!{l1Tag.name}
-                            #if($!{l1Tag.subTags})
-                                <span class="am-icon-angle-right am-fr am-margin-right"></span>
-                            #end
-                        </a>
-                        #if($!{l1Tag.subTags})
-                            <ul class="am-list am-collapse admin-sidebar-sub #if($!{tag_0.id} == $!{l1Tag.id}) am-in #end" id="collapse-nav-$!{l1Tag.id}">
-                                #foreach($l2Tag in $!{l1Tag.subTags})
-                                    <li>
-                                        <a href="/blog/list/$!{l2Tag.id}" class="am-cf #if($!{tag_1.id} != $!{l2Tag.id}) am-collapsed #end">
-                                            #if($!{l2Tag.subTags})
-                                                <span class="am-icon-bookmark"></span>
-                                            #else
-                                                <span class="am-icon-file-text"></span>
-                                            #end
-                                            $!{l2Tag.name}
-                                            #if($!{l2Tag.subTags})
-                                                <span class="am-icon-angle-right am-fr am-margin-right"></span>
-                                            #end
-                                        </a>
-                                        #if($!{l2Tag.subTags})
-                                            <ul class="am-list am-collapse admin-sidebar-sub #if($!{tag_1.id} == $!{l2Tag.id}) am-in #end" id="collapse-nav-$!{l2Tag.id}">
-                                            #foreach($l3Tag in $!{l2Tag.subTags})
-                                                <li>
-                                                    <a href="/blog/list/$!{l3Tag.id}" class="am-cf">
-                                                        <span class="am-icon-file-text"></span>
-                                                        $!{l3Tag.name}
-                                                    </a>
-                                                </li>
-                                            #end
-                                            </ul>
-                                        #end
-                                    </li>
+                                <span class="am-icon-book"></span>
+                                $!{l1Tag.name}
+                                #if($!{l1Tag.subTags})
+                                    <span class="am-icon-angle-right am-fr am-margin-right"></span>
                                 #end
-                            </ul>
-                        #end
-                    </li>
+                            </a>
+                            #if($!{l1Tag.subTags})
+                                <ul class="am-list am-collapse admin-sidebar-sub #if($!{tag_0.id} == $!{l1Tag.id}) am-in #end" id="collapse-nav-$!{l1Tag.id}">
+                                    #foreach($l2Tag in $!{l1Tag.subTags})
+                                        <li>
+                                            <a href="/blog/list/$!{l2Tag.id}" class="am-cf #if($!{tag_1.id} != $!{l2Tag.id}) am-collapsed #end">
+                                                #if($!{l2Tag.subTags})
+                                                    <span class="am-icon-bookmark"></span>
+                                                #else
+                                                    <span class="am-icon-file-text"></span>
+                                                #end
+                                                $!{l2Tag.name}
+                                                #if($!{l2Tag.subTags})
+                                                    <span class="am-icon-angle-right am-fr am-margin-right"></span>
+                                                #end
+                                            </a>
+                                            #if($!{l2Tag.subTags})
+                                                <ul class="am-list am-collapse admin-sidebar-sub #if($!{tag_1.id} == $!{l2Tag.id}) am-in #end" id="collapse-nav-$!{l2Tag.id}">
+                                                    #foreach($l3Tag in $!{l2Tag.subTags})
+                                                        <li>
+                                                            <a href="/blog/list/$!{l3Tag.id}" class="am-cf">
+                                                                <span class="am-icon-file-text"></span>
+                                                                $!{l3Tag.name}
+                                                            </a>
+                                                        </li>
+                                                    #end
+                                                </ul>
+                                            #end
+                                        </li>
+                                    #end
+                                </ul>
+                            #end
+                        </li>
+                    #end
                 #end
-            #end
             #if($!{page.admin})
                 <li class="admin-parent">
                     <a class="am-cf am-collapsed" data-am-collapse="{target: '#collapse-nav-system'}">
@@ -69,13 +74,12 @@
                             </li>
                     </ul>
                 </li>
-
             #end
         </ul>
 
         <div class="am-panel am-panel-default admin-sidebar-panel">
             <div class="am-panel-bd am-g">
-                <p><span class="am-icon-pencil"></span> 最近更新</p>
+                <p><span class="am-icon-pencil"></span> 最近修改</p>
 
                 <ul class="am-list">
                     #if($!{page.recentEditArticles})

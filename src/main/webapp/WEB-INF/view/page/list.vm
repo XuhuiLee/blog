@@ -3,48 +3,39 @@
 <div class="admin-content-body">
     <div class="am-header-container am-cf am-padding am-padding-bottom-lg">
         <div class="am-fl am-cf">
-            #if($!{tag_0})
-                <strong class="am-text-black am-text-lg">
-                    <a href="/blog/list/$!{tag_0.id}">
-                        <span class="am-icon-bookmark"></span>
-                        $!{tag_0.name}
-                    </a>
-                </strong>
-                #if($!{tag_1})
+            #if($!{page.currentTagPath})
+                ## 有path，遍历path
+                #foreach($tag in $!{page.currentTagPath})
                     <strong class="am-text-black am-text-lg">
-                        /
-                        <a href="/blog/list/$!{tag_1.id}">
+                        #if($velocityCount != 1) / #end
+                        <a href="/blog/list/$!{tag.id}">
                             <span class="am-icon-bookmark"></span>
-                            $!{tag_1.name}
+                            $!{tag.name}
                         </a>
                     </strong>
-                    #if($!{tag_2})
-                        <strong class="am-text-black am-text-lg">
-                            /
-                            <a href="/blog/list/$!{tag_2.id}">
-                                <span class="am-icon-bookmark"></span>
-                                $!{tag_2.name}
-                            </a>
-                            #if($!{page.admin})
-                                <a class="am-link-muted" id="edit_button" onclick="editTag($!{tag_2.id}, '$!{tag_2.name}', $!{tag_1.id}, '父级Tag：$!{tag_1.name}')">
-                                    <span class="am-icon-pencil"></span>
-                                </a>
-                            #end
-                        </strong>
+                    #set($lastTag = $!{tag})
+                #end
+                #if($!{page.admin})
+                    ## 管理员显示修改标签
+                    #if($!{lastTag.parentId} > 0)
+                        #set($parentTag = $!{page.getTag($!{lastTag.parentId})})
+                        <a class="am-link-muted" id="edit_button" onclick="editTag($!{lastTag.id}, '$!{lastTag.name}', $!{parentTag.id}, '父级Tag：$!{parentTag.name}')">
+                            <span class="am-icon-pencil"></span>
+                        </a>
                     #else
-                        #if($!{page.admin})
-                            <a class="am-link-muted" id="edit_button" onclick="editTag($!{tag_1.id}, '$!{tag_1.name}', $!{tag_0.id}, '父级Tag：$!{tag_0.name}')">
-                                <span class="am-icon-pencil"></span>
-                            </a>
-                        #end
-                    #end
-                #elseif($!{tag_0.id} > 0)
-                    #if($!{page.admin})
-                        <a class="am-link-muted" id="edit_button" onclick="editTag($!{tag_0.id}, '$!{tag_0.name}', 0, '父级Tag：无')">
+                        <a class="am-link-muted" id="edit_button" onclick="editTag($!{lastTag.id}, '$!{lastTag.name}', 0, '父级Tag：无')">
                             <span class="am-icon-pencil"></span>
                         </a>
                     #end
                 #end
+            #else
+                ## 无path，默认页
+                <strong class="am-text-black am-text-lg">
+                    <a href="/blog/list/">
+                        <span class="am-icon-bookmark"></span>
+                        最新文章
+                    </a>
+                </strong>
             #end
         </div>
     </div>

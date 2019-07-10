@@ -62,7 +62,7 @@ public class ReadService {
         Article article = Converter.articleEntity2Article(entity);
         if (article != null) {
             if (entity.getTag() > 0) {
-                List<Tag> tags = tagService.getParentTagPath(entity.getTag());
+                List<Tag> tags = TagService.getParentTagPath(entity.getTag());
                 article.setTags(tags);
             } else {
                 article.setTags(NO_TAG_LIST);
@@ -75,7 +75,7 @@ public class ReadService {
      * 普通列表页，不翻页
      */
     public List<ListItem> getListItemList(int tagId) {
-        Set<Integer> tagIdPath = tagService.getChildTagIdPath(tagId);
+        Set<Integer> tagIdPath = TagService.getChildTagIdPath(tagId);
         if (CollectionUtils.isEmpty(tagIdPath)) {
             return null;
         }
@@ -107,7 +107,7 @@ public class ReadService {
      * 面包屑导航
      */
     public List<Tag> getPath(int tagId) {
-        return tagService.getParentTagPath(tagId);
+        return TagService.getParentTagPath(tagId);
     }
 
     private void fillTags(List<ListItem> input) {
@@ -116,7 +116,7 @@ public class ReadService {
                 if (item.getTagId() == 0) {
                     item.setTags(NO_TAG_LIST);
                 } else {
-                    item.setTags(tagService.getParentTagPath(item.getTagId()));
+                    item.setTags(TagService.getParentTagPath(item.getTagId()));
                 }
             }
         }

@@ -3,11 +3,11 @@ package com.createarttechnology.blog.service;
 import com.alibaba.fastjson.JSON;
 import com.createarttechnology.blog.bean.request.SaveArticleReq;
 import com.createarttechnology.blog.bean.request.SaveTagReq;
-import com.createarttechnology.blog.bean.response.BaseResp;
-import com.createarttechnology.blog.constants.ErrorInfo;
 import com.createarttechnology.blog.dao.entity.ArticleEntity;
 import com.createarttechnology.blog.dao.entity.TagEntity;
 import com.createarttechnology.blog.util.RichTextUtil;
+import com.createarttechnology.common.BaseResp;
+import com.createarttechnology.common.ErrorInfo;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.stereotype.Service;
 
@@ -53,7 +53,7 @@ public class WriteService {
 
     public BaseResp saveTag(SaveTagReq req, boolean modify) {
         BaseResp<Integer> resp = new BaseResp<>();
-        if (!tagService.isValidParentId(req.getParentId())) {
+        if (!TagService.isValidParentId(req.getParentId())) {
             return resp.setErrorInfo(ErrorInfo.INVALID_PARAMS);
         }
 
