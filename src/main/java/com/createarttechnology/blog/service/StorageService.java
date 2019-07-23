@@ -13,6 +13,7 @@ import java.util.Collection;
 import java.util.List;
 
 /**
+ * 提供mapper的间接调用
  * Created by lixuhui on 2018/9/13.
  */
 @Service

@@ -13,6 +13,7 @@ public class Article {
     private String createTime;
     private String updateTime;
     private String markdown;
+    private int pv;
 
     public long getId() {
         return id;
@@ -70,6 +71,14 @@ public class Article {
         this.markdown = markdown;
     }
 
+    public int getPv() {
+        return pv;
+    }
+
+    public void setPv(int pv) {
+        this.pv = pv;
+    }
+
     @Override
     public String toString() {
         return "Article{" +
@@ -80,6 +89,7 @@ public class Article {
                 ", createTime='" + createTime + '\'' +
                 ", updateTime='" + updateTime + '\'' +
                 ", markdown='" + markdown + '\'' +
+                ", pv=" + pv +
                 '}';
     }
 }

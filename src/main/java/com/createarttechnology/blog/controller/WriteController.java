@@ -2,20 +2,20 @@ package com.createarttechnology.blog.controller;
 
 import com.createarttechnology.blog.bean.request.SaveArticleReq;
 import com.createarttechnology.blog.bean.request.SaveTagReq;
-import com.createarttechnology.blog.service.ConfigService;
+import com.createarttechnology.blog.service.LoginService;
 import com.createarttechnology.blog.service.WriteService;
 import com.createarttechnology.blog.template.BaseTemplate;
 import com.createarttechnology.blog.util.Checker;
 import com.createarttechnology.common.BaseResp;
 import com.createarttechnology.common.ErrorInfo;
+import com.createarttechnology.jutil.AntiBotUtil;
 import com.createarttechnology.logger.Logger;
-import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 /**
  * Created by lixuhui on 2018/9/13.
@@ -28,17 +28,17 @@ public class WriteController {
     @Resource
     private WriteService writeService;
     @Resource
-    private ConfigService configService;
+    private LoginService loginService;
 
     /**
      * 保存或修改文章
      */
     @RequestMapping(value = "/article/{action}", method = RequestMethod.POST)
-    public BaseResp article(@PathVariable("action") String action, @RequestBody SaveArticleReq req, HttpServletRequest request) {
+    public BaseResp article(@PathVariable("action") String action, @RequestBody SaveArticleReq req, HttpServletRequest request, HttpServletResponse response) {
         logger.info("article, action={}, req={}", action, req);
         BaseResp resp = new BaseResp();
 
-        BaseTemplate tpl = new BaseTemplate(request);
+        BaseTemplate tpl = new BaseTemplate(request, response);
         if (!tpl.isAdmin()) {
             return resp.setErrorInfo(ErrorInfo.NO_AUTH);
         }
@@ -63,11 +63,11 @@ public class WriteController {
      * 保存或修改tag
      */
     @RequestMapping(value = "/tag/{action}", method = RequestMethod.POST)
-    public BaseResp tag(@PathVariable("action") String action, @RequestBody SaveTagReq req, HttpServletRequest request) {
+    public BaseResp tag(@PathVariable("action") String action, @RequestBody SaveTagReq req, HttpServletRequest request, HttpServletResponse response) {
         logger.info("tag, action={}, req={}", action, req);
         BaseResp resp = new BaseResp();
 
-        BaseTemplate tpl = new BaseTemplate(request);
+        BaseTemplate tpl = new BaseTemplate(request, response);
         if (!tpl.isAdmin()) {
             return resp.setErrorInfo(ErrorInfo.NO_AUTH);
         }
@@ -92,18 +92,15 @@ public class WriteController {
      * 登录
      */
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public BaseResp login(@RequestParam("username") String username, @RequestParam("password") String password, HttpServletResponse response) {
+    public BaseResp login(@RequestParam("username") String username, @RequestParam("password") String password, HttpServletRequest request, HttpServletResponse response) {
         logger.info("login, username={}, password={}", username, password);
-        BaseResp resp = new BaseResp();
-
-        logger.info("password={}, md5={}", password, DigestUtils.md5DigestAsHex("password".getBytes()));
-        if (configService.getUsername().equals(username) && DigestUtils.md5DigestAsHex(configService.getPassword().getBytes()).equalsIgnoreCase(password)) {
-            // TODO 这里需要修改
-            Cookie cookie = new Cookie("cat_blog_pass", "1");
-            response.addCookie(cookie);
-            return resp.setErrorInfo(ErrorInfo.SUCCESS);
+        if (AntiBotUtil.isBot(request)) {
+            try {
+                response.sendError(HttpServletResponse.SC_FORBIDDEN);
+                return null;
+            } catch (IOException ignored) {}
         }
-        return resp.setErrorInfo(ErrorInfo.NO_AUTH);
+        return loginService.login(response, username, password);
     }
 
     /**
@@ -111,12 +108,6 @@ public class WriteController {
      */
     @RequestMapping(value = "/logout", method = RequestMethod.POST)
     public BaseResp logout(HttpServletResponse response) {
-        BaseResp resp = new BaseResp();
-
-        // TODO 这里需要修改
-        Cookie cookie = new Cookie("cat_blog_pass", "1");
-        cookie.setMaxAge(0);
-        response.addCookie(cookie);
-        return resp.setErrorInfo(ErrorInfo.SUCCESS);
+        return loginService.logout(response);
     }
 }

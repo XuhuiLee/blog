@@ -6,6 +6,7 @@ import com.createarttechnology.blog.bean.response.ListItem;
 import com.createarttechnology.blog.bean.response.ListItemList;
 import com.createarttechnology.blog.bean.response.Tag;
 import com.createarttechnology.blog.service.ReadService;
+import com.createarttechnology.blog.service.RedisService;
 import com.createarttechnology.blog.template.BaseTemplate;
 import com.createarttechnology.logger.Logger;
 import com.google.common.collect.Iterables;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
@@ -29,21 +31,22 @@ public class ReadController {
 
     private static final Logger logger = Logger.getLogger(ReadController.class);
 
-    private static final String PAGE_TITLE_SUFFIX = " - C.A.T";
     private static final int PAGE_SIZE = 5;
 
     @Resource
     private ReadService readService;
+    @Resource
+    private RedisService redisService;
 
     /**
      * 首页，最新文章
      */
     @RequestMapping(value = {"", "/index", "/list"}, method = RequestMethod.GET)
-    public String index(HttpServletRequest request, Model model, @RequestParam(defaultValue = "1") int page) {
-        BaseTemplate tpl = new BaseTemplate(request);
+    public String index(@RequestParam(defaultValue = "1") int page, HttpServletRequest request, HttpServletResponse response, Model model) {
+        BaseTemplate tpl = new BaseTemplate(request, response);
         Pager pager = new Pager(page, PAGE_SIZE);
         ListItemList data = readService.getRecentCreateListItemList(pager);
-        tpl.setTitle("最新文章" + PAGE_TITLE_SUFFIX);
+        tpl.setTitle("最新文章");
         model.addAttribute("list", data.getList());
         model.addAttribute("data", data);
         model.addAttribute("page", tpl);
@@ -54,17 +57,17 @@ public class ReadController {
      * 根据tag id查看列表
      */
     @RequestMapping(value = "/list/{tagId}", method = RequestMethod.GET)
-    public String list(@PathVariable(value = "tagId") int tagId, HttpServletRequest request, Model model) {
+    public String list(@PathVariable(value = "tagId") int tagId, HttpServletRequest request, HttpServletResponse response, Model model) {
         if (tagId <= 0) {
             return "redirect:/";
         }
-        BaseTemplate tpl = new BaseTemplate(request);
+        BaseTemplate tpl = new BaseTemplate(request, response);
         List<Tag> path = readService.getPath(tagId);
         if (CollectionUtils.isEmpty(path)) {
             return "redirect:/";
         }
         tpl.setCurrentTagPath(path);
-        tpl.setTitle(Iterables.getLast(path).getName() + PAGE_TITLE_SUFFIX);
+        tpl.setTitle(Iterables.getLast(path).getName());
         List<ListItem> itemList = readService.getListItemList(tagId);
         model.addAttribute("list", itemList);
         model.addAttribute("page", tpl);
@@ -75,12 +78,17 @@ public class ReadController {
      * 根据article id查看文章
      */
     @RequestMapping(value = "/article/{id}", method = RequestMethod.GET)
-    public String article(@PathVariable(value = "id") long id, HttpServletRequest request, Model model) {
-        BaseTemplate tpl = new BaseTemplate(request);
+    public String article(@PathVariable(value = "id") long id, HttpServletRequest request, HttpServletResponse response, Model model) {
+        BaseTemplate tpl = new BaseTemplate(request, response);
         Article article = readService.getArticle(id);
         if (article != null) {
-            tpl.setTitle(article.getTitle() + PAGE_TITLE_SUFFIX);
+            tpl.setTitle(article.getTitle());
             tpl.setCurrentTagPath(article.getTags());
+            // 这里记一下除了我自己以外的pv
+            if (!tpl.isAdmin()) {
+                redisService.incrPv(id);
+                article.setPv(article.getPv() + 1);
+            }
         }
         model.addAttribute("article", article);
         model.addAttribute("page", tpl);
@@ -91,9 +99,9 @@ public class ReadController {
      * 文章写入form页
      */
     @RequestMapping(value = "/article/form", method = RequestMethod.GET)
-    public String articlePublish(HttpServletRequest request, Model model) {
-        BaseTemplate tpl = new BaseTemplate(request);
-        tpl.setTitle("发布文章" + PAGE_TITLE_SUFFIX);
+    public String articlePublish(HttpServletRequest request, HttpServletResponse response, Model model) {
+        BaseTemplate tpl = new BaseTemplate(request, response);
+        tpl.setTitle("发布文章");
         model.addAttribute("page", tpl);
         return "page/article/form";
     }
@@ -102,11 +110,11 @@ public class ReadController {
      * 更新文章form页
      */
     @RequestMapping(value = "/article/{id}/update", method = RequestMethod.GET)
-    public String articleUpdate(@PathVariable(value = "id") long id, HttpServletRequest request, Model model) {
-        BaseTemplate tpl = new BaseTemplate(request);
+    public String articleUpdate(@PathVariable(value = "id") long id, HttpServletRequest request, HttpServletResponse response, Model model) {
+        BaseTemplate tpl = new BaseTemplate(request, response);
         Article article = readService.getArticle(id);
         if (article != null) {
-            tpl.setTitle("更新文章 " + article.getTitle() + PAGE_TITLE_SUFFIX);
+            tpl.setTitle("更新文章 " + article.getTitle());
         }
         model.addAttribute("article", article);
         model.addAttribute("page", tpl);
@@ -117,9 +125,9 @@ public class ReadController {
      * 登录
      */
     @RequestMapping(value = "/private-login", method = RequestMethod.GET)
-    public String privateLogin(HttpServletRequest request, Model model) {
-        BaseTemplate tpl = new BaseTemplate(request);
-        tpl.setTitle("登录" + PAGE_TITLE_SUFFIX);
+    public String privateLogin(HttpServletRequest request, HttpServletResponse response, Model model) {
+        BaseTemplate tpl = new BaseTemplate(request, response);
+        tpl.setTitle("登录");
         model.addAttribute("page", tpl);
         return "page/login";
     }

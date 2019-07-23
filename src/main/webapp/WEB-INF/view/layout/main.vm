@@ -39,7 +39,7 @@
     <link rel="stylesheet" href="/sf/amazeui/css/amazeui.min.css">
     <link rel="stylesheet" href="/sf/amazeui/css/admin.css">
 
-    <title>$!{page.title}</title>
+    <title>$!{page.title} - C.A.T</title>
 
     #set($ctx=$request.getContextPath())
     <!--[if (gte IE 9)|!(IE)]><!-->

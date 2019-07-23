@@ -51,7 +51,8 @@
                                 </strong>
                             </a>
                             <div class="am-fr am-cf am-text-cancel">
-                                <span class="am-icon-clock-o"></span> $!{article.createTime}
+                                <span class="am-icon-fire" title="浏览量——眼睛图标太丑了，原谅我">&nbsp;$!{article.pv}&nbsp;&nbsp;&nbsp;</span>
+                                <span class="am-icon-clock-o">&nbsp;$!{article.createTime}</span>
                             </div>
                         </div>
                         <hr>

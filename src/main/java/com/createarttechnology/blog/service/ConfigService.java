@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.PostConstruct;
 
 /**
+ * 通过ConfigFactory读取配置
  * Created by lixuhui on 2018/11/13.
  */
 @Service

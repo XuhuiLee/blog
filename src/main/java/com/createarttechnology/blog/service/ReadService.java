@@ -7,6 +7,7 @@ import com.createarttechnology.blog.bean.response.ListItemList;
 import com.createarttechnology.blog.bean.response.Tag;
 import com.createarttechnology.blog.dao.entity.ArticleEntity;
 import com.createarttechnology.blog.util.Converter;
+import com.createarttechnology.jutil.CollectionUtil;
 import com.createarttechnology.logger.Logger;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
@@ -36,7 +38,7 @@ public class ReadService {
     @Resource
     private StorageService storageService;
     @Resource
-    private TagService tagService;
+    private RedisService redisService;
 
     /**
      * 缓存最近编辑列表
@@ -67,6 +69,8 @@ public class ReadService {
             } else {
                 article.setTags(NO_TAG_LIST);
             }
+            int pv = redisService.getPv(id);
+            article.setPv(pv);
         }
         return article;
     }
@@ -82,6 +86,7 @@ public class ReadService {
         List<ArticleEntity> entities = storageService.getArticleListByParentTagId(tagIdPath);
         List<ListItem> result = Converter.articleEntityList2ListItemList(entities);
         fillTags(result);
+        fillPvs(result);
         return result;
     }
 
@@ -93,6 +98,7 @@ public class ReadService {
         List<ArticleEntity> entities = storageService.getRecentCreateArticles(pager);
         List<ListItem> result = Converter.articleEntityList2ListItemList(entities);
         fillTags(result);
+        fillPvs(result);
         return new ListItemList(pager, count, result);
     }
 
@@ -110,6 +116,9 @@ public class ReadService {
         return TagService.getParentTagPath(tagId);
     }
 
+    /**
+     * 填充tag
+     */
     private void fillTags(List<ListItem> input) {
         if (CollectionUtils.isNotEmpty(input)) {
             for (ListItem item : input) {
@@ -121,4 +130,22 @@ public class ReadService {
             }
         }
     }
+
+    /**
+     * 填充pv
+     */
+    private void fillPvs(List<ListItem> input) {
+        if (CollectionUtil.isEmpty(input)) {
+            return;
+        }
+
+        List<Long> idList = CollectionUtil.transformList(input, ListItem::getId);
+        Map<Long, Integer> pvMap = redisService.batchGetPv(idList);
+        input.forEach(i -> {
+            if (pvMap.containsKey(i.getId())) {
+                i.setPv(pvMap.get(i.getId()));
+            }
+        });
+    }
+
 }

@@ -25,7 +25,9 @@ public class WriteService {
     @Resource
     private TagService tagService;
 
-
+    /**
+     * 保存文章
+     */
     public BaseResp saveArticle(SaveArticleReq req, boolean modify) {
         ArticleEntity entity = new ArticleEntity();
         entity.setTitle(req.getTitle());
@@ -51,6 +53,9 @@ public class WriteService {
         }
     }
 
+    /**
+     * 保存标签
+     */
     public BaseResp saveTag(SaveTagReq req, boolean modify) {
         BaseResp<Integer> resp = new BaseResp<>();
         if (!TagService.isValidParentId(req.getParentId())) {

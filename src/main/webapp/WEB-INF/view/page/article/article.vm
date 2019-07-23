@@ -4,15 +4,18 @@
         <div class="admin-content-body">
             <div class="am-cf am-padding am-padding-bottom-0">
                 <div class="am-fl am-cf">
-                    <strong class="am-text-black am-text-lg">$!{article.title}</strong>
+                    <strong class="am-text-black am-text-xl">
+                        $!{article.title}
+                        #if($!{page.admin})
+                            <a href="/blog/article/$!{article.id}/update" class="am-link-muted" id="edit_button">
+                                <span class="am-icon-pencil"></span>
+                            </a>
+                        #end
+                    </strong>
                 </div>
-                #if($!{page.admin})
-                    <a href="/blog/article/$!{article.id}/update" class="am-link-muted" id="edit_button">
-                        &nbsp;<span class="am-icon-pencil"></span>
-                    </a>
-                #end
-                <div class="am-fr am-cf">
-                    <small class="am-text-gray">   $!{article.createTime}</small>
+                <div class="am-fr am-cf am-text-gray">
+                    <span class="am-icon-fire" title="浏览量——眼睛图标太丑了，原谅我">&nbsp;$!{article.pv}&nbsp;&nbsp;&nbsp;</span>
+                    <span class="am-icon-clock-o">&nbsp;$!{article.createTime}</span>
                 </div>
             </div>
             <div class="am-cf am-padding am-padding-bottom-0">

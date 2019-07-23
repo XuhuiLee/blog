@@ -14,6 +14,7 @@ public class ListItem {
     private String updateTime;
     private int tagId;
     private List<Tag> tags;
+    private int pv;
 
     public long getId() {
         return id;
@@ -79,6 +80,14 @@ public class ListItem {
         this.tags = tags;
     }
 
+    public int getPv() {
+        return pv;
+    }
+
+    public void setPv(int pv) {
+        this.pv = pv;
+    }
+
     @Override
     public String toString() {
         return "ListItem{" +
@@ -90,6 +99,7 @@ public class ListItem {
                 ", updateTime='" + updateTime + '\'' +
                 ", tagId=" + tagId +
                 ", tags=" + tags +
+                ", pv=" + pv +
                 '}';
     }
 }
