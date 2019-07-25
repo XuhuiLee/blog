@@ -6,7 +6,7 @@ import com.createarttechnology.jutil.StringUtil;
 import com.createarttechnology.logger.Logger;
 import com.google.common.collect.Maps;
 import org.springframework.stereotype.Service;
-import redis.clients.jedis.Jedis;
+import redis.clients.jedis.commands.JedisCommands;
 
 import javax.annotation.Resource;
 import java.util.Collections;
@@ -23,7 +23,7 @@ public class RedisService {
     private static final Logger logger = Logger.getLogger(RedisService.class);
 
     @Resource
-    private Jedis blogRedis;
+    private JedisCommands blogRedis;
 
     public void incrPv(long articleId) {
         blogRedis.hincrBy(RedisKeys.REDIS_ARTICLE_PV_HASH, String.valueOf(articleId), 1);
