@@ -13,7 +13,7 @@ public class Article {
     private String createTime;
     private String updateTime;
     private String markdown;
-    private int pv;
+    private long pv;
 
     public long getId() {
         return id;
@@ -71,11 +71,11 @@ public class Article {
         this.markdown = markdown;
     }
 
-    public int getPv() {
+    public long getPv() {
         return pv;
     }
 
-    public void setPv(int pv) {
+    public void setPv(long pv) {
         this.pv = pv;
     }
 

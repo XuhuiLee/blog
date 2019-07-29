@@ -76,38 +76,6 @@
                 </li>
             #end
         </ul>
-
-        <div class="am-panel am-panel-default admin-sidebar-panel">
-            <div class="am-panel-bd am-g">
-                <p><span class="am-icon-pencil"></span> 最近修改</p>
-
-                <ul class="am-list">
-                    #if($!{page.recentEditArticles})
-                        #foreach($item in $!{page.recentEditArticles})
-                            <li class="am-text-xs">
-                                <a href="/blog/article/$!{item.id}">
-                                    <div class="am-cf">
-                                        <div class="am-fl am-cf">
-                                            $!{item.title}
-                                        </div>
-                                        <div class="am-fr am-cf">
-                                            $!{item.updateTime}
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                        #end
-                    #end
-                </ul>
-            </div>
-        </div>
-
-        <div class="am-panel am-panel-default admin-sidebar-panel">
-            <div class="am-panel-bd">
-                <p><span class="am-icon-tag"></span> 分站宗旨</p>
-                <p>一站式资料平台，减少重复检索，避免采坑。 </p>
-            </div>
-        </div>
     </div>
 </div>
 

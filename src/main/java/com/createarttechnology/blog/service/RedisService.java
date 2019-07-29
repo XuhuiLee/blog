@@ -25,13 +25,13 @@ public class RedisService {
     @Resource
     private JedisCommands blogRedis;
 
-    public void incrPv(long articleId) {
-        blogRedis.hincrBy(RedisKeys.REDIS_ARTICLE_PV_HASH, String.valueOf(articleId), 1);
+    public long incrPv(long articleId) {
+        return blogRedis.hincrBy(RedisKeys.REDIS_ARTICLE_PV_HASH, String.valueOf(articleId), 1);
     }
 
-    public int getPv(long articleId) {
+    public long getPv(long articleId) {
         String pv = blogRedis.hget(RedisKeys.REDIS_ARTICLE_PV_HASH, String.valueOf(articleId));
-        return StringUtil.convertInt(pv, 0);
+        return StringUtil.convertLong(pv, 0);
     }
 
     public Map<Long, Integer> batchGetPv(List<Long> articleIds) {

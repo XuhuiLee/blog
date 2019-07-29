@@ -38,6 +38,7 @@
 
     <link rel="stylesheet" href="/sf/amazeui/css/amazeui.min.css">
     <link rel="stylesheet" href="/sf/amazeui/css/admin.css">
+    <link rel="stylesheet" href="/sf/css/blog/page/main.css">
 
     <title>$!{page.title} - C.A.T</title>
 
@@ -56,11 +57,15 @@
         以获得更好的体验！</p>
     <![endif]-->
     #parse("/layout/header.vm")
-
-    <div class="am-cf admin-main">
-        #parse("/layout/sidebar.vm")
-        <div class="admin-content">
+    <div class="am-cf admin-main main-container">
+        <div class="main-left">
+            #parse("/layout/sidebar.vm")
+        </div>
+        <div class="main-middle admin-content">
             $content
+        </div>
+        <div class="main-right">
+            #parse("/layout/rightsidebar.vm")
         </div>
     </div>
 

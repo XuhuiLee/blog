@@ -29,6 +29,9 @@ public class BaseTemplate {
     private boolean admin = false;
     private List<Tag> currentTagPath;
 
+    private long totalPv;
+    private int totalArticle;
+
     public BaseTemplate(HttpServletRequest request, HttpServletResponse response) {
         this.request = request;
         this.response = response;
@@ -104,5 +107,21 @@ public class BaseTemplate {
 
     public void setCurrentTagPath(List<Tag> currentTagPath) {
         this.currentTagPath = currentTagPath;
+    }
+
+    public void setTotalPv(long totalPv) {
+        this.totalPv = totalPv;
+    }
+
+    public long getTotalPv() {
+        return totalPv;
+    }
+
+    public void setTotalArticle(int totalArticle) {
+        this.totalArticle = totalArticle;
+    }
+
+    public int getTotalArticle() {
+        return totalArticle;
     }
 }
