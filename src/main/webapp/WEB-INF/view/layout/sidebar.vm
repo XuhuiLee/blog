@@ -3,23 +3,28 @@
 <div class="admin-sidebar am-offcanvas" id="admin-offcanvas">
     <div class="am-offcanvas-bar admin-offcanvas-bar">
         <ul class="am-list admin-sidebar-list">
-            <li class="admin-parent">
-                <a href="/blog/list/" class="am-cf am-collapsed">
-                    <span class="am-icon-book"></span>
-                    最新文章
-                </a>
-            </li>
             #set($tagSize = $!{page.currentTagPath.size()})
             #if($tagSize > 0) #set($tag_0 = $!{page.currentTagPath.get(0)}) #end
             #if($tagSize > 1) #set($tag_1 = $!{page.currentTagPath.get(1)}) #end
             #if($tagSize > 2) #set($tag_2 = $!{page.currentTagPath.get(2)}) #end
 
+            <li class="admin-parent">
+                <a href="/blog/list/" class="am-cf am-collapsed">
+                    <span class="am-icon-book"></span>
+                    #if(! $!{tag_0} || $!{tag_0.id} == 0) <strong>最新文章</strong> #else 最新文章 #end
+                </a>
+            </li>
+
             #if($!{page.topTags})
                 #foreach($l1Tag in $!{page.topTags})
                         <li class="admin-parent">
-                        <a href="/blog/list/$!{l1Tag.id}" class="am-cf #if($!{tag_0.id} != $!{l1Tag.id}) am-collapsed #end">
-                                <span class="am-icon-book"></span>
-                                $!{l1Tag.name}
+                            <a href="/blog/list/$!{l1Tag.id}" class="am-cf #if($!{tag_0.id} != $!{l1Tag.id}) am-collapsed #end">
+                                <span class="am-icon-book am-fl"></span>
+                                #if($!{tagSize} == 1 && $!{tag_0.id} == $!{l1Tag.id})
+                                    <strong>$!{l1Tag.name}</strong>
+                                #else
+                                    $!{l1Tag.name}
+                                #end
                                 #if($!{l1Tag.subTags})
                                     <span class="am-icon-angle-right am-fr am-margin-right"></span>
                                 #end
@@ -30,11 +35,15 @@
                                         <li>
                                             <a href="/blog/list/$!{l2Tag.id}" class="am-cf #if($!{tag_1.id} != $!{l2Tag.id}) am-collapsed #end">
                                                 #if($!{l2Tag.subTags})
-                                                    <span class="am-icon-bookmark"></span>
+                                                    <span class="am-icon-bookmark am-fl"></span>
                                                 #else
-                                                    <span class="am-icon-file-text"></span>
+                                                    <span class="am-icon-file-text am-fl"></span>
                                                 #end
-                                                $!{l2Tag.name}
+                                                #if($!{tagSize} == 2 && $!{tag_1.id} == $!{l2Tag.id})
+                                                    <strong class="am-fl">$!{l2Tag.name}</strong>
+                                                #else
+                                                    $!{l2Tag.name}
+                                                #end
                                                 #if($!{l2Tag.subTags})
                                                     <span class="am-icon-angle-right am-fr am-margin-right"></span>
                                                 #end
@@ -44,8 +53,12 @@
                                                     #foreach($l3Tag in $!{l2Tag.subTags})
                                                         <li>
                                                             <a href="/blog/list/$!{l3Tag.id}" class="am-cf">
-                                                                <span class="am-icon-file-text"></span>
-                                                                $!{l3Tag.name}
+                                                                <span class="am-icon-file-text am-fl"></span>
+                                                                #if($!{tagSize} == 3 && $!{tag_2.id} == $!{l3Tag.id})
+                                                                    <strong class="am-fl">$!{l3Tag.name}</strong>
+                                                                #else
+                                                                    $!{l3Tag.name}
+                                                                #end
                                                             </a>
                                                         </li>
                                                     #end
@@ -68,10 +81,23 @@
                     <ul class="am-list am-collapse admin-sidebar-sub" id="collapse-nav-system">
                             <li>
                                 <a id="add_tag" onclick="showSign(0)" class="am-cf">
-                                    <span class="am-icon-tag"></span>
-                                    添加Tag
+                                    <span class="am-icon-tag"> 添加Tag</span>
                                 </a>
                             </li>
+
+                            #if($!{tagSize})
+                                #set($tagIdx = $!{tagSize} - 1)
+                                #set($lastTag = $!{page.currentTagPath.get($tagIdx)})
+                                #if($!{lastTag.parentId} > 0)
+                                    #set($parentTag = $!{page.getTag($!{lastTag.parentId})})
+                                    #set($parentName = $!{parentTag.name})
+                                #end
+                                <li>
+                                    <a id="add_tag" onclick="editTag($!{lastTag.id}, '$!{lastTag.name}', $!{lastTag.parentId}, '$!{parentName}')" class="am-cf">
+                                        <span class="am-icon-pencil"> 修改当前Tag</span>
+                                    </a>
+                                </li>
+                            #end
                     </ul>
                 </li>
             #end
@@ -97,15 +123,15 @@
                             </button>
                             #if($!{page.topTags})
                                 <ul class="am-dropdown-content">
-                                    <li><a onclick="selectFormTag(0, '父级Tag：无')" class="am-text-xs"> 无 </a></li>
+                                    <li><a onclick="selectFormTag(0, '父级Tag：无')" class="am-text-xs sidebar-cursor"> 无 </a></li>
                                     #foreach($l1Tag in $!{page.topTags})
                                         <li class="am-divider"></li>
-                                        <li><a onclick="selectFormTag($!{l1Tag.id}, '父级Tag：$!{l1Tag.name}')" class="am-text-xs">
+                                        <li><a onclick="selectFormTag($!{l1Tag.id}, '父级Tag：$!{l1Tag.name}')" class="am-text-xs sidebar-cursor">
                                              $!{l1Tag.name}
                                         </a></li>
                                         #if($!{l1Tag.subTags})
                                             #foreach($l2Tag in $!{l1Tag.subTags})
-                                                <li><a onclick="selectFormTag($!{l2Tag.id}, '父级Tag：$!{l2Tag.name}')" class="am-text-xs">
+                                                <li><a onclick="selectFormTag($!{l2Tag.id}, '父级Tag：$!{l2Tag.name}')" class="am-text-xs sidebar-cursor">
                                                     <span class="am-icon-angle-right"/>
                                                     $!{l2Tag.name}
                                                 </a></li>

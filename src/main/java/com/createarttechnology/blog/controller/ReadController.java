@@ -121,6 +121,7 @@ public class ReadController {
         Article article = readService.getArticle(req);
         if (article != null) {
             tpl.setTitle("更新文章 " + article.getTitle());
+            tpl.setCurrentTagPath(article.getTags());
         }
 
         model.addAttribute("article", article);
