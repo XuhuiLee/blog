@@ -50,6 +50,12 @@ public class Converter {
         output.setSimpleContent(RichTextUtil.formatSimpleText(input.getSimpleContent()));
         if (StringUtil.isNotEmpty(input.getPics())) {
             output.setPics(JSON.parseArray(input.getPics(), String.class));
+            if (CollectionUtil.isNotEmpty(output.getPics())) {
+                for (int i = 0; i < output.getPics().size(); i++) {
+                    String pic = output.getPics().get(i);
+                    output.getPics().set(i, pic.replace("/pic/", "/prev/"));
+                }
+            }
         }
         output.setCreateTime(TimeUtil.getTimeStringInt(input.getCreateTime()));
         output.setUpdateTime(TimeUtil.getTimeStringInt(input.getUpdateTime()));
