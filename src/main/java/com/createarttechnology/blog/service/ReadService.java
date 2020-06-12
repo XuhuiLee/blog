@@ -146,6 +146,13 @@ public class ReadService {
     }
 
     /**
+     * sitemap
+     */
+    public List<ArticleEntity> getAllArticleIdAndUpdateTime() {
+        return storageService.getArticleIdAndUpdateTime();
+    }
+
+    /**
      * 填充tag
      */
     private void fillTags(List<ListItem> input) {

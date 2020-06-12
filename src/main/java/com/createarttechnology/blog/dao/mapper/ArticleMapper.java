@@ -22,6 +22,13 @@ public interface ArticleMapper {
 
     List<ArticleEntity> getArticleListByParentTagId(@Param("collection") Collection<Integer> tagIds) throws Exception;
 
+    /**
+     * 查找全部id和修改日期
+     * @return
+     */
+    @Select("SELECT id, update_time FROM article")
+    List<ArticleEntity> getArticleIdAndUpdateTime();
+
     @Insert("INSERT INTO article(title, simple_content, rich_content, tag, pics, create_time, update_time, markdown) VALUES " +
             "(#{article.title}, #{article.simpleContent}, #{article.richContent}, #{article.tag}, #{article.pics}, UNIX_TIMESTAMP(), UNIX_TIMESTAMP(), #{article.markdown})")
     @Options(useGeneratedKeys = true, keyColumn = "id", keyProperty = "article.id")

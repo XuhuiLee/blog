@@ -102,6 +102,15 @@ public class StorageService {
         return 0;
     }
 
+    public List<ArticleEntity> getArticleIdAndUpdateTime() {
+        try {
+            return articleMapper.getArticleIdAndUpdateTime();
+        } catch (Exception e) {
+            logger.error("articleMapper.getArticleIdAndUpdateTime error, pager={}, e:", e);
+        }
+        return null;
+    }
+
     /*
     tag
      */
